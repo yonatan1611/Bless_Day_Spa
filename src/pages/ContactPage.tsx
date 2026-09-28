@@ -1,11 +1,82 @@
-import { PageIntro } from '../components/PageIntro'
+import { PageContainer, Section } from '../components/layout/Primitives'
+import { SectionHeading } from '../components/layout/SectionHeading'
+import { Button } from '../components/ui/Button'
+import { business } from '../content/business'
+import { usePageTitle } from '../hooks/usePageTitle'
 
-export function ContactPage() {
-  return <main id="main-content">
-    <PageIntro eyebrow="Visit & contact" title="Find a little time for yourself."><p>Bless Day Spa is in Wollo Sefer, just off Ethio-China Road in Addis Ababa.</p></PageIntro>
-    <section className="contact-layout">
-      <div className="contact-route"><p className="eyebrow">Appointments</p><h2>Message the spa directly.</h2><p>Ask about current treatment availability and a convenient appointment time.</p><a className="button" href="https://m.me/blessdayspa" target="_blank" rel="noreferrer">Message on Facebook <span aria-hidden="true">↗</span></a><p className="contact-route__fine-print">Opens the public Bless Day Spa Messenger contact.</p></div>
-      <div className="contact-details"><div><span>Location</span><p>Wollo Sefer, just off Ethio-China Road<br />Near Meskel Flower roundabout<br />Addis Ababa, Ethiopia</p></div><div><span>Hours listed</span><p>Daily, 9:30 AM–8:00 PM</p><small>Please confirm availability before visiting.</small></div><a className="text-link" href="https://www.google.com/maps/search/?api=1&query=Bless%20Day%20Spa%2C%20Addis%20Ababa" target="_blank" rel="noreferrer">Open in Google Maps <span aria-hidden="true">↗</span></a></div>
-    </section>
-  </main>
+// Same search query the existing "Open in Google Maps" link already uses —
+// this just embeds it, rather than asserting a precise pin we can't verify.
+const mapQuery = encodeURIComponent(`${business.name}, ${business.city}`)
+
+export const ContactPage = () => {
+  usePageTitle('Contact')
+
+  return (
+    <main id="main-content">
+      <Section padding="top" className="page-intro">
+        <PageContainer narrow>
+          <SectionHeading level={1} eyebrow="Visit & contact" title="Find a little time for yourself.">
+            <p className="body-lg">{business.name} is in {business.areaDescription} in {business.city}.</p>
+          </SectionHeading>
+        </PageContainer>
+      </Section>
+
+      <Section padding="bottom">
+        <PageContainer>
+          <div className="contact-map">
+            <iframe
+              title={`Map showing the approximate location of ${business.name}`}
+              src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </PageContainer>
+      </Section>
+
+      <Section padding="bottom">
+        <PageContainer>
+          <div className="contact-layout">
+            <div className="contact-route">
+              <p className="eyebrow">Appointments</p>
+              <h2 className="display-md">Message the spa directly.</h2>
+              <p className="body">Ask about current treatment availability and a convenient appointment time.</p>
+              <Button href={business.messengerUrl} variant="primary" arrow="up-right">Message on Facebook</Button>
+              <p className="body-sm contact-route__fine-print">Opens the public {business.name} Messenger contact.</p>
+            </div>
+
+            <div className="contact-details">
+              <div>
+                <span className="eyebrow">Location</span>
+                <p className="body">
+                  {business.areaDescription}
+                  <br />
+                  {business.landmark}
+                  <br />
+                  {business.city}
+                </p>
+              </div>
+              <div>
+                <span className="eyebrow">Hours listed</span>
+                <p className="body">{business.hours.label}</p>
+                <small className="body-sm">{business.hours.note}</small>
+              </div>
+              <a className="text-link" href={business.mapUrl} target="_blank" rel="noreferrer">
+                Open in Google Maps
+              </a>
+            </div>
+          </div>
+        </PageContainer>
+      </Section>
+
+      <Section className="section--inverse contact-cta" aria-labelledby="contact-cta-title">
+        <PageContainer narrow>
+          <p className="eyebrow">Get in touch</p>
+          <h2 id="contact-cta-title" className="display-lg">Book your visit.</h2>
+          <p className="body-lg">Send {business.name} a message to ask about an available time.</p>
+          <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+        </PageContainer>
+      </Section>
+    </main>
+  )
 }

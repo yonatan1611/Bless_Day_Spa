@@ -31,6 +31,18 @@ Researched: 15 September 2026. This record is intentionally conservative: a fact
 
 A review published April 2025 describes professional service, deep-tissue massage, and hot towels. Older reviews mention calmness and cleanliness. These are individual customer opinions, not claims or testimonials for the website.
 
+## Update: first-party content supersedes this record
+
+Starting late September 2026, the business itself supplied its own official
+photography, logo, and treatment/price flyers directly (not third-party
+listings). That first-party material is a stronger source than anything
+above and is used in `src/content/menu.ts`, `src/content/images.ts`, and the
+real photography under `public/images/`. Where it conflicts with the
+conservative stance below (e.g. "do not make treatment menus or price
+claims"), the first-party material wins. The caveats below still apply to
+anything the business hasn't itself confirmed (exact address, email,
+WhatsApp, opening year, ownership, certifications).
+
 ## Content implications
 
 - Start with a clear, factual local introduction—not invented wellness language.

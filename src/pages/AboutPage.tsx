@@ -1,13 +1,95 @@
-import { ImageFrame } from '../components/ImageFrame'
-import { PageIntro } from '../components/PageIntro'
-import { demoImages } from '../content/images'
+import { PageContainer, Section } from '../components/layout/Primitives'
+import { EditorialSplit } from '../components/layout/EditorialSplit'
+import { ImageFrame } from '../components/ui/ImageFrame'
+import { Button } from '../components/ui/Button'
+import { Reveal } from '../components/ui/Reveal'
+import { business } from '../content/business'
+import { reviews } from '../content/reviews'
+import { aboutImages } from '../content/images'
+import { usePageTitle } from '../hooks/usePageTitle'
 
-export function AboutPage() {
-  return <main id="main-content">
-    <PageIntro eyebrow="About Bless Day Spa" title="Twenty-plus years of time set aside for care."><p>In the movement of Addis Ababa, Bless Day Spa has created a place to step out of the day for a while—welcoming both women and men in Wollo Sefer.</p></PageIntro>
-    <section className="about-feature"><ImageFrame src={demoImages.interior} demo alt="Demonstration spa location photography" /><div><p className="eyebrow">A full-service spa</p><h2>Care that meets you where you are.</h2><p>Bless Day Spa brings massage, Moroccan bath, steam and sauna, hair salon care, facials, and wellness therapies together in one calm setting. The focus is simple: give every guest room to relax, reset, and leave feeling restored.</p></div></section>
-    <section className="about-story"><div><p className="eyebrow">In Addis Ababa since the beginning</p><h2>Built around the value of feeling looked after.</h2></div><div><p>For more than two decades, Bless Day Spa has served the city with treatments shaped around individual needs. The setting is intentionally calm, the service attentive, and the experience unhurried.</p><p>Whether the visit is for a massage, facial, Moroccan bath, or simply time to recharge, the spa is designed as a welcome pause from the pace outside.</p></div></section>
-    <section className="about-facts" aria-label="Business information"><div><span>Established</span><p>20+ years serving<br />Addis Ababa</p></div><div><span>Location</span><p>3, 632 Wollo Sefer<br />Addis Ababa, Ethiopia</p></div><div><span>Hours listed</span><p>Daily<br />9:30 AM–8:00 PM</p></div></section>
-    <section className="about-closing"><p>Come for the care. Stay for the quiet.</p><a className="button button--light" href="#/contact?book=1">Plan your visit <span aria-hidden="true">↘</span></a></section>
-  </main>
+export const AboutPage = () => {
+  usePageTitle('About')
+
+  return (
+    <main id="main-content">
+      <Section padding="top" className="about-hero">
+        <PageContainer narrow>
+          <p className="eyebrow">About {business.name}</p>
+          <h1 className="about-hero__title">A day spa in Wollo Sefer.</h1>
+          <p className="body-lg">{business.servesDescription}</p>
+        </PageContainer>
+      </Section>
+
+      <Section aria-labelledby="about-intro-title">
+        <PageContainer>
+          <Reveal>
+            <EditorialSplit
+              media={<ImageFrame variant="editorial" aspectRatio="portrait" src={aboutImages.hallway} alt="The Bless Day Spa building entrance in Wollo Sefer" />}
+              mediaSide="right"
+            >
+              <p className="eyebrow">What it is</p>
+              <h2 id="about-intro-title" className="display-md">Massage, Moroccan bath, steam &amp; sauna, and hair salon care.</h2>
+              <p className="body">Full pricing for every treatment is on the treatments page.</p>
+              <Button to="/treatments" variant="text" arrow="down-right">Browse treatments</Button>
+            </EditorialSplit>
+          </Reveal>
+        </PageContainer>
+      </Section>
+
+      <Section className="section--accent about-atmosphere" aria-labelledby="atmosphere-title">
+        <PageContainer narrow>
+          <Reveal className="about-atmosphere__grid">
+            <div className="about-atmosphere__media">
+              <ImageFrame variant="gallery" aspectRatio="square" src={aboutImages.towels} demo alt="Demonstration linen photography" />
+            </div>
+            <div>
+              <p className="eyebrow">The atmosphere</p>
+              <h2 id="atmosphere-title" className="display-md">What guests notice.</h2>
+              <blockquote className="about-atmosphere__quote">
+                <p>&ldquo;{reviews[1].quote}&rdquo;</p>
+                <footer className="body-sm">{reviews[1].attribution}</footer>
+              </blockquote>
+            </div>
+          </Reveal>
+        </PageContainer>
+      </Section>
+
+      <Section aria-labelledby="storytelling-title">
+        <PageContainer>
+          <Reveal>
+            <p className="eyebrow">A closer look</p>
+            <h2 id="storytelling-title" className="display-md">The setting, in detail.</h2>
+          </Reveal>
+          <Reveal delay={120} className="about-mosaic">
+            <ImageFrame variant="editorial" aspectRatio="landscape" className="about-mosaic__large" src={aboutImages.curtain} demo alt="Demonstration light and linen detail" />
+            <ImageFrame variant="gallery" src={aboutImages.woodGrain} demo alt="Demonstration natural wood detail" />
+          </Reveal>
+        </PageContainer>
+      </Section>
+
+      <Section className="section--surface" aria-labelledby="confirm-title">
+        <PageContainer narrow>
+          <Reveal className="information-note">
+            <h2 className="eyebrow" id="confirm-title">What we can confirm</h2>
+            <p className="body-sm">
+              Details beyond the service categories and location shown on this site — including
+              opening year, ownership, and certifications — have not yet been confirmed by the
+              business. This page will be updated as soon as they are.
+            </p>
+            <Button to="/contact" variant="text" arrow="down-right">Visit &amp; contact details</Button>
+          </Reveal>
+        </PageContainer>
+      </Section>
+
+      <Section className="section--inverse about-cta" aria-labelledby="about-cta-title">
+        <PageContainer narrow>
+          <p className="eyebrow">Come visit</p>
+          <h2 id="about-cta-title" className="display-lg">Plan your visit.</h2>
+          <p className="body-lg">Send {business.name} a message to ask about an available time.</p>
+          <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+        </PageContainer>
+      </Section>
+    </main>
+  )
 }

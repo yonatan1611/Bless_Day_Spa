@@ -1,14 +1,76 @@
-import { PageIntro } from '../components/PageIntro'
+import { useState } from 'react'
+import { PageContainer, Section } from '../components/layout/Primitives'
+import { SectionHeading } from '../components/layout/SectionHeading'
+import { ImageFrame } from '../components/ui/ImageFrame'
+import { reviews } from '../content/reviews'
+import { reviewsImage } from '../content/images'
+import { usePageTitle } from '../hooks/usePageTitle'
 
-const reviews = [
-  { quote: '“High quality services, and the level of professionalism.”', by: 'Tripadvisor guest review · April 2025' },
-  { quote: '“Friendly, clean and professional.”', by: 'Tripadvisor guest review · June 2018' },
-]
+export const ReviewsPage = () => {
+  usePageTitle('Reviews')
+  const [index, setIndex] = useState(0)
+  const review = reviews[index]
+  const go = (next: number) => setIndex((next + reviews.length) % reviews.length)
 
-export function ReviewsPage() {
-  return <main id="main-content">
-    <PageIntro eyebrow="Guest notes" title="What visitors have shared."><p>These excerpts are from public Tripadvisor reviews and represent the experiences of individual guests.</p></PageIntro>
-    <section className="reviews-list" aria-label="Guest reviews">{reviews.map((review) => <blockquote key={review.by}><p>{review.quote}</p><footer>{review.by}</footer></blockquote>)}</section>
-    <section className="review-disclosure"><p>Reviews are not edited or presented as a promise of a particular result.</p><a className="text-link" href="https://www.tripadvisor.com/Attraction_Review-g293791-d8062300-Reviews-Bless_Day_Spa-Addis_Ababa.html" target="_blank" rel="noreferrer">Read on Tripadvisor <span aria-hidden="true">↗</span></a></section>
-  </main>
+  return (
+    <main id="main-content">
+      <Section padding="top" className="page-intro">
+        <PageContainer narrow>
+          <SectionHeading level={1} eyebrow="Guest notes" title="What visitors have shared.">
+            <p className="body-lg">
+              These excerpts are from public Tripadvisor reviews and represent the experiences
+              of individual guests.
+            </p>
+          </SectionHeading>
+        </PageContainer>
+      </Section>
+
+      <Section padding="bottom">
+        <PageContainer>
+          <div className="reviews-spotlight">
+            <div className="reviews-spotlight__media">
+              <ImageFrame variant="editorial" aspectRatio="portrait" src={reviewsImage} demo alt="Demonstration interior detail photography" />
+            </div>
+
+            <div className="reviews-spotlight__content">
+              <blockquote className="reviews-spotlight__quote">
+                <p>&ldquo;{review.quote}&rdquo;</p>
+                <footer className="body-sm">{review.attribution}</footer>
+              </blockquote>
+
+              {reviews.length > 1 && (
+                <div className="testimonial-slider__controls reviews-spotlight__controls">
+                  <button type="button" className="testimonial-slider__arrow" onClick={() => go(index - 1)} aria-label="Previous review">
+                    ←
+                  </button>
+                  <div className="testimonial-slider__dots">
+                    {reviews.map((r, i) => (
+                      <button
+                        key={r.attribution}
+                        type="button"
+                        className={`testimonial-slider__dot ${i === index ? 'is-active' : ''}`}
+                        aria-current={i === index}
+                        aria-label={`Show review ${i + 1}`}
+                        onClick={() => setIndex(i)}
+                      />
+                    ))}
+                  </div>
+                  <button type="button" className="testimonial-slider__arrow" onClick={() => go(index + 1)} aria-label="Next review">
+                    →
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="review-disclosure">
+            <p className="body-sm">Reviews are not edited or presented as a promise of a particular result.</p>
+            <a className="text-link" href={reviews[0]?.sourceUrl} target="_blank" rel="noreferrer">
+              Read on Tripadvisor
+            </a>
+          </div>
+        </PageContainer>
+      </Section>
+    </main>
+  )
 }

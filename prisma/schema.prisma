@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  name         String?
+  role         String   @default("staff")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("admin_users")
+}
+
+model Service {
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  name            String
+  description     String        @default("")
+  durationMinutes Int?          @map("duration_minutes")
+  priceEtb        Decimal?      @db.Decimal(10, 2) @map("price_etb")
+  isActive        Boolean       @default(false) @map("is_active")
+  sortOrder       Int           @default(0) @map("sort_order")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  appointments    Appointment[]
+
+  @@index([isActive, sortOrder])
+  @@map("services")
+}
+
+model Appointment {
+  id              String            @id @default(cuid())
+  serviceId       String            @map("service_id")
+  serviceName     String            @map("service_name")
+  durationMinutes Int               @map("duration_minutes")
+  startsAt        DateTime          @map("starts_at")
+  endsAt          DateTime          @map("ends_at")
+  customerName    String            @map("customer_name")
+  phone           String
+  email           String?
+  note            String?
+  status          AppointmentStatus @default(PENDING)
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+  service         Service           @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+
+  @@index([startsAt, status])
+  @@map("appointments")
+}
+
+model OpeningHour {
+  id       String   @id @default(cuid())
+  weekday  Int      @unique
+  opensAt  String?  @map("opens_at")
+  closesAt String?  @map("closes_at")
+  isClosed Boolean  @default(false) @map("is_closed")
+
+  @@map("opening_hours")
+}
+
+model BusinessProfile {
+  id        String   @id @default("primary")
+  phone     String
+  whatsapp  String
+  email     String?
+  address   String
+  mapUrl    String?  @map("map_url")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("business_profiles")
+}
+
+model Package {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @default("")
+  priceEtb    Decimal? @db.Decimal(10, 2) @map("price_etb")
+  isActive    Boolean  @default(false) @map("is_active")
+  sortOrder   Int      @default(0) @map("sort_order")
+
+  @@index([isActive, sortOrder])
+  @@map("packages")
+}
+
+model GalleryImage {
+  id          String   @id @default(cuid())
+  path        String   @unique
+  altText     String   @default("") @map("alt_text")
+  sortOrder   Int      @default(0) @map("sort_order")
+  isPublished Boolean  @default(false) @map("is_published")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([isPublished, sortOrder])
+  @@map("gallery_images")
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  quote       String
+  attribution String
+  sourceUrl   String?  @map("source_url")
+  isPublished Boolean  @default(false) @map("is_published")
+  sortOrder   Int      @default(0) @map("sort_order")
+
+  @@index([isPublished, sortOrder])
+  @@map("reviews")
+}
