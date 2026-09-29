@@ -1,11 +1,8 @@
 // Homepage editorial image collection — localized under public/images/homepage/
-// so the homepage never depends on a remote host. massage, moroccanBath,
-// steamSauna, hairSalon, galleryLarge, galleryLeaf, and galleryWater are real
-// Bless Day Spa photography (graded to match the site's warm, moody editorial
-// tone); the rest are still placeholder/demo photography (not licensed Bless
-// Day Spa imagery) — see demoServiceSlugs below for which service slugs
-// still need real photos. Source for the remaining placeholders: royalty-free
-// Unsplash photography, downloaded into the project rather than hot-linked.
+// so the homepage never depends on a remote host. All images are real Bless
+// Day Spa photography, cropped from the business's own treatment-flyer and
+// interior photos (source-photos/business-photos) with price/text overlays
+// removed, graded to match the site's warm, moody editorial tone.
 export const homepageImages = {
   hero: '/images/homepage/hero.jpg',
   brandStory: '/images/homepage/brand-story.jpg',
@@ -19,10 +16,10 @@ export const homepageImages = {
 } as const
 
 // Treatments-experience image collection — localized under
-// public/images/treatments/. landingHero, massage, moroccanBath, steamSauna,
-// and hairSalon are real Bless Day Spa photography (a different crop/angle
-// from the homepage set so /treatments keeps its own visual personality).
-// detailTexture is still placeholder photography — see demoServiceSlugs.
+// public/images/treatments/. All images are real Bless Day Spa photography
+// (a different crop/angle from the homepage set so /treatments keeps its own
+// visual personality). detailTexture is a wood-paneling close-up from the
+// steam room.
 export const treatmentImages = {
   landingHero: '/images/treatments/landing-hero.jpg',
   massage: '/images/treatments/massage.jpg',
@@ -34,9 +31,9 @@ export const treatmentImages = {
 
 // About-page image collection — localized under public/images/about/.
 // hallway is the real Bless Day Spa building exterior/entrance in Wollo
-// Sefer. curtain, towels, and woodGrain are still placeholder architecture
-// and material detail — this page is about atmosphere, not a specific
-// service.
+// Sefer. curtain, towels, and woodGrain are real material/texture detail
+// crops from the treatment rooms (curtain fabric, rolled towels with rose
+// petals, herringbone parquet floor).
 export const aboutImages = {
   curtain: '/images/about/curtain.jpg',
   towels: '/images/about/towels.jpg',
@@ -47,10 +44,11 @@ export const aboutImages = {
 // Gallery image collection — localized under public/images/gallery/.
 // A deliberately varied set of textures, materials, and quiet details for
 // an editorial masonry, distinct from every other page's collection.
-// skincare, fabric, and towel are real Bless Day Spa photography (a deep
-// tissue massage detail, a floor-mattress treatment room, and a hot stone
-// massage close-up); stoneTexture, chair, sandstone, and clothHook are still
-// placeholder photography.
+// All images are real Bless Day Spa photography: skincare, fabric, and towel
+// are a deep tissue massage detail, a floor-mattress treatment room, and a
+// hot stone massage close-up; stoneTexture and sandstone are the grey-marble
+// and tan-tile Moroccan bath rooms; chair is the hair salon styling chairs;
+// clothHook is a rose-petal detail on a treatment bed.
 export const galleryImages = {
   stoneTexture: '/images/gallery/stone-texture.jpg',
   skincare: '/images/gallery/skincare.jpg',
@@ -61,11 +59,10 @@ export const galleryImages = {
   towel: '/images/gallery/towel.jpg',
 } as const
 
-// Menu category images — localized under public/images/brand/. Royalty-free
-// stock photography (Unsplash License, downloaded into the project rather
-// than hot-linked), graded to match the site's editorial tone. Used where no
-// sharp, text-free Bless Day Spa photo of that room/treatment exists yet —
-// see the sourcing note in content/menu.ts.
+// Menu category images — localized under public/images/brand/. Cropped from
+// Bless Day Spa's own treatment-flyer photography (price/text overlays
+// removed), graded to match the site's editorial tone — see the sourcing
+// note in content/menu.ts.
 export const menuImages = {
   massage: '/images/brand/massage.jpg',
   hairAndBeauty: '/images/brand/hair-and-beauty.jpg',
@@ -87,12 +84,13 @@ export const packageImages = {
   shellacManicure: '/images/packages/shellac-manicure.jpg',
 } as const
 
-// Single supporting image for the Reviews page.
+// Single supporting image for the Reviews page — a corner of the hair salon
+// lounge (real Bless Day Spa photography).
 export const reviewsImage = '/images/reviews/nook.jpg'
 
 // Service slugs whose homepageImages/treatmentImages entries are still
-// placeholder photography. Empty now that all four service categories
-// (massage, moroccan-bath, steam-sauna, hair-salon) use real Bless Day Spa
-// photos — components read this to decide whether to show the "demo"
-// disclosure and placeholder-style alt text for a given service image.
+// placeholder photography. Empty — every image across the site is now real
+// Bless Day Spa photography — components read this to decide whether to
+// show the "demo" disclosure and placeholder-style alt text for a given
+// service image.
 export const demoServiceSlugs = new Set<string>([])

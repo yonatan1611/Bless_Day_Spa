@@ -1,65 +1,53 @@
-import { useState } from 'react'
-import { PageContainer, Section } from '../components/layout/Primitives'
 import { SectionHeading } from '../components/layout/SectionHeading'
+import { PageContainer, Section } from '../components/layout/Primitives'
 import { ImageFrame } from '../components/ui/ImageFrame'
+import { BlurText } from '../components/react-bits/BlurText'
+import { CardSwap, SwapCard } from '../components/react-bits/CardSwap'
+import { ScrollVelocity } from '../components/react-bits/ScrollVelocity'
+import { GradientText } from '../components/react-bits/GradientText'
 import { reviews } from '../content/reviews'
 import { reviewsImage } from '../content/images'
 import { usePageTitle } from '../hooks/usePageTitle'
 
 export const ReviewsPage = () => {
   usePageTitle('Reviews')
-  const [index, setIndex] = useState(0)
-  const review = reviews[index]
-  const go = (next: number) => setIndex((next + reviews.length) % reviews.length)
 
   return (
     <main id="main-content">
       <Section padding="top" className="page-intro">
         <PageContainer narrow>
           <SectionHeading level={1} eyebrow="Guest notes" title="What visitors have shared.">
-            <p className="body-lg">
-              These excerpts are from public Tripadvisor reviews and represent the experiences
-              of individual guests.
-            </p>
+            <BlurText
+              text="These excerpts are from public Tripadvisor reviews and represent the experiences of individual guests."
+              className="body-lg"
+            />
           </SectionHeading>
         </PageContainer>
       </Section>
+
+      <ScrollVelocity text="TRIPADVISOR GUEST REVIEWS · " className="reviews-marquee" />
 
       <Section padding="bottom">
         <PageContainer>
           <div className="reviews-spotlight">
             <div className="reviews-spotlight__media">
-              <ImageFrame variant="editorial" aspectRatio="portrait" src={reviewsImage} demo alt="Demonstration interior detail photography" />
+              <ImageFrame variant="editorial" aspectRatio="portrait" src={reviewsImage} alt="A lounge corner in the hair salon at Bless Day Spa" />
             </div>
 
             <div className="reviews-spotlight__content">
-              <blockquote className="reviews-spotlight__quote">
-                <p>&ldquo;{review.quote}&rdquo;</p>
-                <footer className="body-sm">{review.attribution}</footer>
-              </blockquote>
-
-              {reviews.length > 1 && (
-                <div className="testimonial-slider__controls reviews-spotlight__controls">
-                  <button type="button" className="testimonial-slider__arrow" onClick={() => go(index - 1)} aria-label="Previous review">
-                    ←
-                  </button>
-                  <div className="testimonial-slider__dots">
-                    {reviews.map((r, i) => (
-                      <button
-                        key={r.attribution}
-                        type="button"
-                        className={`testimonial-slider__dot ${i === index ? 'is-active' : ''}`}
-                        aria-current={i === index}
-                        aria-label={`Show review ${i + 1}`}
-                        onClick={() => setIndex(i)}
-                      />
-                    ))}
-                  </div>
-                  <button type="button" className="testimonial-slider__arrow" onClick={() => go(index + 1)} aria-label="Next review">
-                    →
-                  </button>
-                </div>
-              )}
+              <p className="eyebrow"><GradientText>Real reviews, cycling automatically</GradientText></p>
+              <div className="reviews-spotlight__stage">
+                <CardSwap width="100%" height={260} delay={5000}>
+                  {reviews.map((review) => (
+                    <SwapCard key={review.attribution} className="reviews-spotlight__card">
+                      <blockquote className="reviews-spotlight__quote">
+                        <p>&ldquo;{review.quote}&rdquo;</p>
+                        <footer className="body-sm">{review.attribution}</footer>
+                      </blockquote>
+                    </SwapCard>
+                  ))}
+                </CardSwap>
+              </div>
             </div>
           </div>
 

@@ -3,10 +3,38 @@ import { EditorialSplit } from '../components/layout/EditorialSplit'
 import { ImageFrame } from '../components/ui/ImageFrame'
 import { Button } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
+import { CardFlip } from '../components/kokonut/CardFlip'
+import { BlurText } from '../components/react-bits/BlurText'
+import { VariableProximity } from '../components/react-bits/VariableProximity'
+import { TrueFocus } from '../components/react-bits/TrueFocus'
+import { ScrollFloat } from '../components/react-bits/ScrollFloat'
+import { ClickSpark } from '../components/react-bits/ClickSpark'
 import { business } from '../content/business'
 import { reviews } from '../content/reviews'
 import { aboutImages } from '../content/images'
 import { usePageTitle } from '../hooks/usePageTitle'
+
+// Real facts only, traced to content/business.ts — hover a card to flip it.
+const expectFacts = [
+  {
+    title: 'Four rituals',
+    subtitle: 'One visit, four ways to unwind',
+    description: 'Massage, Moroccan bath, steam & sauna, and hair salon — together in Wollo Sefer.',
+    features: ['Massage', 'Moroccan bath', 'Steam & sauna', 'Hair salon'],
+  },
+  {
+    title: business.yearsExperience,
+    subtitle: 'years of experience',
+    description: 'Full-service spa care, from massage to hair styling, in one place.',
+    features: [business.hours.label, business.servesDescription],
+  },
+  {
+    title: 'Wollo Sefer',
+    subtitle: business.landmark,
+    description: `${business.areaDescription}, ${business.city}.`,
+    features: [business.areaDescription, business.city],
+  },
+]
 
 export const AboutPage = () => {
   usePageTitle('About')
@@ -16,7 +44,9 @@ export const AboutPage = () => {
       <Section padding="top" className="about-hero">
         <PageContainer narrow>
           <p className="eyebrow">About {business.name}</p>
-          <h1 className="about-hero__title">A day spa in Wollo Sefer.</h1>
+          <h1 className="about-hero__title">
+            <BlurText text="A day spa in Wollo Sefer." tag="span" direction="top" />
+          </h1>
           <p className="body-lg">{business.servesDescription}</p>
         </PageContainer>
       </Section>
@@ -29,10 +59,26 @@ export const AboutPage = () => {
               mediaSide="right"
             >
               <p className="eyebrow">What it is</p>
-              <h2 id="about-intro-title" className="display-md">Massage, Moroccan bath, steam &amp; sauna, and hair salon care.</h2>
+              <h2 id="about-intro-title" className="display-md">
+                <VariableProximity label="Massage, Moroccan bath, steam & sauna, and hair salon care." radius={100} />
+              </h2>
               <p className="body">Full pricing for every treatment is on the treatments page.</p>
               <Button to="/treatments" variant="text" arrow="down-right">Browse treatments</Button>
             </EditorialSplit>
+          </Reveal>
+        </PageContainer>
+      </Section>
+
+      <Section aria-labelledby="expect-title">
+        <PageContainer>
+          <Reveal>
+            <p className="eyebrow">What to expect</p>
+            <h2 id="expect-title" className="display-md">Hover to look closer.</h2>
+          </Reveal>
+          <Reveal delay={120} className="about-expect">
+            {expectFacts.map((fact) => (
+              <CardFlip key={fact.title} {...fact} />
+            ))}
           </Reveal>
         </PageContainer>
       </Section>
@@ -41,7 +87,7 @@ export const AboutPage = () => {
         <PageContainer narrow>
           <Reveal className="about-atmosphere__grid">
             <div className="about-atmosphere__media">
-              <ImageFrame variant="gallery" aspectRatio="square" src={aboutImages.towels} demo alt="Demonstration linen photography" />
+              <ImageFrame variant="gallery" aspectRatio="square" src={aboutImages.towels} alt="Rolled towels and rose petals on a treatment bed at Bless Day Spa" />
             </div>
             <div>
               <p className="eyebrow">The atmosphere</p>
@@ -55,15 +101,24 @@ export const AboutPage = () => {
         </PageContainer>
       </Section>
 
+      <Section aria-label="What's on offer" className="about-philosophy">
+        <PageContainer narrow>
+          <Reveal>
+            <p className="eyebrow">All in one visit</p>
+            <TrueFocus sentence="Massage Moroccan Bath Steam Sauna Hair Salon" />
+          </Reveal>
+        </PageContainer>
+      </Section>
+
       <Section aria-labelledby="storytelling-title">
         <PageContainer>
           <Reveal>
             <p className="eyebrow">A closer look</p>
-            <h2 id="storytelling-title" className="display-md">The setting, in detail.</h2>
+            <ScrollFloat id="storytelling-title" className="display-md">The setting, in detail.</ScrollFloat>
           </Reveal>
           <Reveal delay={120} className="about-mosaic">
-            <ImageFrame variant="editorial" aspectRatio="landscape" className="about-mosaic__large" src={aboutImages.curtain} demo alt="Demonstration light and linen detail" />
-            <ImageFrame variant="gallery" src={aboutImages.woodGrain} demo alt="Demonstration natural wood detail" />
+            <ImageFrame variant="editorial" aspectRatio="landscape" className="about-mosaic__large" src={aboutImages.curtain} alt="Curtain fabric in a treatment room at Bless Day Spa" />
+            <ImageFrame variant="gallery" src={aboutImages.woodGrain} alt="Herringbone parquet flooring at Bless Day Spa" />
           </Reveal>
         </PageContainer>
       </Section>
@@ -87,7 +142,9 @@ export const AboutPage = () => {
           <p className="eyebrow">Come visit</p>
           <h2 id="about-cta-title" className="display-lg">Plan your visit.</h2>
           <p className="body-lg">Send {business.name} a message to ask about an available time.</p>
-          <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+          <ClickSpark>
+            <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+          </ClickSpark>
         </PageContainer>
       </Section>
     </main>

@@ -19,11 +19,9 @@ export type MenuCategory = {
 // treatment flyers (official marketing material supplied by the business),
 // not third-party research; some prices vary slightly between flyers printed
 // at different times, so this menu should be treated as a guide and
-// confirmed when booking. moroccanBath and steamSauna use real Bless Day Spa
-// photography; massage, facials, and hairAndBeauty/nailCare use royalty-free
-// stock photography (see menuImages in content/images.ts) since no sharp,
-// text-free photo of those rooms exists yet — so their alt text describes
-// the treatment generically rather than claiming to show this specific spa.
+// confirmed when booking. All category images (see menuImages in
+// content/images.ts) are now cropped from those same flyers/photos, with
+// price and text overlays removed.
 export const menuCategories: MenuCategory[] = [
   {
     slug: 'massage',
@@ -79,7 +77,7 @@ export const menuCategories: MenuCategory[] = [
     title: 'Hair & beauty',
     tagline: 'Full salon care, plus organic avocado-oil and shea-butter treatments.',
     image: menuImages.hairAndBeauty,
-    alt: 'A hair wash and treatment in progress',
+    alt: 'A client under a hood dryer during a hair treatment at Bless Day Spa',
     items: [
       { name: 'Full-service hair salon' },
       { name: 'Organic hair treatments' },
@@ -93,7 +91,7 @@ export const menuCategories: MenuCategory[] = [
     title: 'Nail care',
     tagline: 'Manicure, pedicure, and shellac finishes.',
     image: menuImages.nailCare,
-    alt: 'A manicure in a soft, neutral polish',
+    alt: 'A manicure and pedicure in glossy red polish',
     items: [
       { name: 'Manicure & pedicure', price: '220 ETB' },
       { name: 'Shellac manicure with hair wash & style', price: '300 ETB' },
