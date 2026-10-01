@@ -510,7 +510,14 @@ body.nav-open .mobile-book-bar { transform: translateY(100%); }
   align-items: center;
   gap: 0.6rem;
 }
-.floating-header__cta { display: none; }
+.floating-header__cta {
+  display: none;
+  /* The button's own fill is solid charcoal, which reads fine on light
+     page backgrounds but disappears into an inverse (also-charcoal)
+     section behind the floating header — this ring keeps its edge
+     visible regardless of what's scrolling underneath. */
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-ivory) 35%, transparent);
+}
 @media (min-width: 1024px) {
   .floating-header__cta { display: inline-flex; }
 }
@@ -861,14 +868,19 @@ body.nav-open { overflow: hidden; }
   padding: var(--gutter);
   padding-top: calc(var(--header-height) + var(--gutter));
   padding-bottom: clamp(2.5rem, 6vw, 5rem);
-  max-width: 40rem;
+  max-width: 48rem;
 }
 .hero__eyebrow { color: var(--text-inverse-muted); }
 .hero__title {
   margin-top: 0.5rem;
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(3rem, 2rem + 5vw, 8rem);
+  /* Was clamp(3rem, 2rem + 5vw, 8rem) — at >=1920px viewports that hit the
+     8rem ceiling, "Make room" / "for a blessed day." no longer fit the
+     (then 40rem-capped) copy column even one short phrase per line, so
+     each word wrapped onto its own line. Lower ceiling + wider column
+     (above) keeps "Make room" on one line at any realistic width. */
+  font-size: clamp(2.75rem, 1.8rem + 4vw, 6rem);
   line-height: 0.94;
   letter-spacing: -0.02em;
 }
@@ -1963,7 +1975,64 @@ body.lightbox-open { overflow: hidden; }
 }
 
 .booking-stepper__choice-groups { display: flex; flex-direction: column; gap: var(--space-md); }
-.booking-stepper__choices { display: flex; flex-wrap: wrap; gap: 0.6rem; border: none; padding: 0; margin: 0; }
+
+.booking-stepper__selected { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.booking-stepper__selected-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.5rem 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-charcoal);
+  background: var(--color-charcoal);
+  color: var(--color-ivory);
+  font-size: var(--fs-sm);
+}
+.booking-stepper__selected-chip span { opacity: 0.7; font-size: 1.1em; line-height: 1; }
+.booking-stepper__selected-chip:hover { opacity: 0.85; }
+
+.booking-stepper__accordion { display: flex; flex-direction: column; gap: 0.6rem; }
+.booking-stepper__accordion-item {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-page);
+  transition: border-color var(--transition-base);
+}
+.booking-stepper__accordion-item:has(.booking-stepper__accordion-trigger[aria-expanded="true"]) { border-color: var(--accent-warm); }
+.booking-stepper__accordion-trigger {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: 0.6rem var(--space-sm);
+  text-align: left;
+  font-size: var(--fs-base);
+}
+.booking-stepper__accordion-thumb { flex: none; width: 2.75rem; height: 2.75rem; border-radius: var(--radius-sm); object-fit: cover; }
+.booking-stepper__accordion-title { font-weight: 500; }
+.booking-stepper__accordion-trigger:hover .booking-stepper__accordion-title { color: var(--accent-warm); }
+.booking-stepper__accordion-count {
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-warm);
+}
+.booking-stepper__accordion-icon { flex: none; transition: transform var(--transition-base); }
+.booking-stepper__accordion-icon.is-open { transform: rotate(180deg); }
+
+.booking-stepper__choices {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  border: none;
+  padding: 0 var(--space-sm) var(--space-sm);
+  margin: 0;
+}
 .booking-stepper__choices legend { width: 100%; margin-bottom: var(--space-sm); }
 .booking-stepper__choice {
   padding: 0.75rem 1.25rem;
@@ -1995,6 +2064,8 @@ body.lightbox-open { overflow: hidden; }
 .booking-stepper__summary > * + * { margin-top: var(--space-sm); }
 .booking-stepper__summary ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
 .booking-stepper__summary li { padding-bottom: 0.4rem; border-bottom: 1px solid var(--border-subtle); }
+.booking-stepper__send-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; }
+.booking-stepper__sent { color: var(--accent-warm); }
 
 .booking-stepper__nav {
   display: flex;
@@ -2125,8 +2196,14 @@ body.lightbox-open { overflow: hidden; }
 .card-swap { position: relative; perspective: 1200px; margin-inline: auto; }
 .swap-card {
   position: absolute;
-  top: 0;
-  left: 0;
+  /* CardSwap.tsx centers each card with xPercent/yPercent: -50 — that only
+     lands the stack inside its container when the untransformed anchor is
+     the container's center (50%/50%), not its top-left corner. With top/
+     left: 0, every card's center sat at the container's top-left corner
+     instead, so the whole stack rendered shifted up and to the left of
+     where its box actually is. */
+  top: 50%;
+  left: 50%;
   border-radius: var(--radius-md);
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);

@@ -4,26 +4,16 @@ import { SectionHeading } from '../components/layout/SectionHeading'
 import { BookingStepper } from '../components/booking/BookingStepper'
 import { BlurText } from '../components/react-bits/BlurText'
 import { business } from '../content/business'
-import { getService } from '../content/services'
-import { packages } from '../content/packages'
 import { usePageTitle } from '../hooks/usePageTitle'
 
-// A real multi-step interface (BookingStepper), but still honest about what
-// it is: there's no online-scheduling backend yet (a later phase — see
-// docs/neon-prisma-setup.md), so the last step ends in the same
-// message-the-spa request pattern used across the site, just with a clear
-// recap of what was chosen instead of the visitor re-typing it.
+// A real multi-step interface (BookingStepper) that emails the request to
+// the spa (see docs/booking-email-setup.md) — still honest that it's a
+// request, not a live-calendar confirmation, since there's no appointment
+// system behind it. BookingStepper resolves ?service=/?package= itself
+// (a service slug maps onto the menu category it's priced under).
 export const BookPage = () => {
   usePageTitle('Book Appointment')
   const [searchParams] = useSearchParams()
-  const service = getService(searchParams.get('service') ?? undefined)
-  const pkg = packages.find((item) => item.slug === searchParams.get('package'))
-
-  const initialChoice = service
-    ? { kind: 'service' as const, slug: service.slug, label: service.title }
-    : pkg
-      ? { kind: 'package' as const, slug: pkg.slug, label: pkg.name }
-      : undefined
 
   return (
     <main id="main-content">
@@ -44,7 +34,10 @@ export const BookPage = () => {
 
       <Section>
         <PageContainer narrow>
-          <BookingStepper initialChoice={initialChoice} />
+          <BookingStepper
+            initialServiceSlug={searchParams.get('service') ?? undefined}
+            initialPackageSlug={searchParams.get('package') ?? undefined}
+          />
         </PageContainer>
       </Section>
     </main>

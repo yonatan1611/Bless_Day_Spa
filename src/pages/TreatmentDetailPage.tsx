@@ -29,7 +29,10 @@ export const TreatmentDetailPage = () => {
 
   if (!service) return <Navigate to="/treatments" replace />
 
-  const related = services.filter((item) => item.slug !== service.slug)
+  // Capped at 3: CardSwap stacks each extra card higher above the front one,
+  // and with 6 services now (up from the original 4), showing all 5 others
+  // stacked that high overlaps the heading above the stage.
+  const related = services.filter((item) => item.slug !== service.slug).slice(0, 3)
 
   return (
     <main id="main-content">

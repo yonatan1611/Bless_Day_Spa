@@ -73,7 +73,7 @@ export const TreatmentMenu = () => {
                 onClick={() => { setActive(index); setOpenNote(null) }}
               >
                 <span className="menu-explorer__tab-name">{item.title}</span>
-                <span className="menu-explorer__tab-count">{item.items.length} treatments</span>
+                <span className="menu-explorer__tab-count">{item.items.length} treatment{item.items.length === 1 ? '' : 's'}</span>
               </button>
             ))}
           </div>
