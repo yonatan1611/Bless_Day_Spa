@@ -35,7 +35,11 @@ const navGroups: CardNavGroup[] = [
     textColor: 'var(--color-ivory)',
     links: [
       { label: 'Book Appointment', to: '/book' },
+      { label: `Call ${business.phoneDisplay}`, to: `tel:${business.phone}`, external: true },
       { label: 'Message on Facebook', to: business.messengerUrl, external: true },
+      { label: 'Facebook', to: business.facebookUrl, external: true },
+      { label: 'Instagram', to: business.instagramUrl, external: true },
+      { label: 'TikTok', to: business.tiktokUrl, external: true },
     ],
   },
 ]
@@ -69,6 +73,7 @@ export const Footer = () => {
               {business.city}
             </p>
             <p className="body-sm footer__muted">{business.hours.label}</p>
+            <a className="body-sm footer__address" href={`tel:${business.phone}`}>{business.phoneDisplay}</a>
           </div>
           <Magnet padding={40}>
             <a className="footer__brand-mark-link" href="/" aria-label="Bless Day Spa home">

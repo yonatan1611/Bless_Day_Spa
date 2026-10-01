@@ -22,7 +22,6 @@ Researched: 15 September 2026. This record is intentionally conservative: a fact
 ## Not yet suitable for public site content
 
 - Exact street/building address: listings vary between Ethio-China Road and Kirkos-3-632.
-- Phone: directory detail pages give `011 416 9211`; directory search results show `091 264 6675`. Do not render either in site UI until the business confirms one.
 - Email: listings give `blessdayspa.addis@gmail.com`, but this is unverified and should not be exposed without confirmation.
 - WhatsApp number, prices, booking method, staff, facilities beyond the services above, opening year, ownership, certifications, awards, and social handles.
 - Images, logo, and brand assets: no rights-cleared official assets were retrieved. Do not reuse third-party listing/review imagery.
@@ -30,6 +29,24 @@ Researched: 15 September 2026. This record is intentionally conservative: a fact
 ## Review signal (for editorial direction only)
 
 A review published April 2025 describes professional service, deep-tissue massage, and hot towels. Older reviews mention calmness and cleanliness. These are individual customer opinions, not claims or testimonials for the website.
+
+## Update: phone number confirmed October 2026
+
+The site maintainer confirmed `+251 91 264 6675` (the number already seen in
+directory search results and in the Instagram/TikTok bios) as the business's
+main number to call. It's used as a `tel:` link in `src/content/business.ts`
+(`phone`/`phoneDisplay`). The `011 416 9211` landline from directory detail
+pages remains unconfirmed and unused.
+
+## Update: additional reviews added October 2026
+
+The Tripadvisor listing blocks automated fetching, so it could not be
+re-crawled directly. The site maintainer instead copied four reviews
+verbatim (quote, reviewer name/location where shown, and date) straight
+from the live listing and provided them for `src/content/reviews.ts`:
+davidevil (Apr 2025), Senait H. of Dallas, TX (Jun 2018), Hiwot T. of
+Arlington, VA (Jul 2017), and an unattributed review (Oct 2015). All four
+are used as testimonial excerpts on the site.
 
 ## Update: first-party content supersedes this record
 

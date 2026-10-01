@@ -34,6 +34,7 @@ export const BookingCta = () => (
         <div className="booking-cta__actions">
           <Button to="/book" variant="primary" arrow="down-right">Start your request</Button>
           <Button href={business.messengerUrl} variant="secondary" arrow="up-right">Message on Facebook</Button>
+          <Button href={`tel:${business.phone}`} variant="secondary">Call {business.phoneDisplay}</Button>
         </div>
       </Reveal>
     </PageContainer>

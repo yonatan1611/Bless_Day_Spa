@@ -55,9 +55,12 @@ export const ContactPage = () => {
               <p className="eyebrow"><GradientText>Appointments</GradientText></p>
               <h2 className="display-md">Message the spa directly.</h2>
               <p className="body">Ask about current treatment availability and a convenient appointment time.</p>
-              <ClickSpark>
-                <Button href={business.messengerUrl} variant="primary" arrow="up-right">Message on Facebook</Button>
-              </ClickSpark>
+              <div className="contact-route__actions">
+                <ClickSpark>
+                  <Button href={business.messengerUrl} variant="primary" arrow="up-right">Message on Facebook</Button>
+                </ClickSpark>
+                <Button href={`tel:${business.phone}`} variant="secondary">Call {business.phoneDisplay}</Button>
+              </div>
               <p className="body-sm contact-route__fine-print">Opens the public {business.name} Messenger contact.</p>
             </BentoCard>
 
@@ -77,9 +80,23 @@ export const ContactPage = () => {
                 <p className="body">{business.hours.label}</p>
                 <small className="body-sm">{business.hours.note}</small>
               </div>
+              <div>
+                <span className="eyebrow">Call</span>
+                <p className="body">
+                  <a className="text-link" href={`tel:${business.phone}`}>{business.phoneDisplay}</a>
+                </p>
+              </div>
               <a className="text-link" href={business.mapUrl} target="_blank" rel="noreferrer">
                 Open in Google Maps
               </a>
+              <div>
+                <span className="eyebrow">Follow along</span>
+                <div className="contact-details__social-links">
+                  <a className="text-link" href={business.instagramUrl} target="_blank" rel="noreferrer">Instagram</a>
+                  <a className="text-link" href={business.facebookUrl} target="_blank" rel="noreferrer">Facebook</a>
+                  <a className="text-link" href={business.tiktokUrl} target="_blank" rel="noreferrer">TikTok</a>
+                </div>
+              </div>
             </BentoCard>
           </div>
         </PageContainer>

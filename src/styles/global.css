@@ -760,6 +760,8 @@ body.nav-open { overflow: hidden; }
 .contact-route .bento-card__content > * + *,
 .contact-details .bento-card__content > * + * { margin-top: var(--space-sm); }
 .contact-route__fine-print { color: var(--text-muted); }
+.contact-route__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
+.contact-details__social-links { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-top: 0.5rem; }
 
 .not-found { text-align: center; }
 .not-found > * + * { margin-top: var(--space-sm); }
