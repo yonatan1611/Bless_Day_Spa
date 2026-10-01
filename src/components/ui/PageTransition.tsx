@@ -1,15 +1,23 @@
 import type { ReactNode } from 'react'
-import { useLocation } from 'react-router-dom'
+import { motion, useReducedMotion } from 'motion/react'
 
-// Keying on pathname forces a remount on route change, which restarts the
-// CSS fade-in below. No exit animation (that needs a library to sequence
-// against the router) — a clean enter-fade is enough to soften the cut
-// between pages. prefers-reduced-motion is handled globally in global.css.
+// A real exit+enter (not just a CSS enter-fade) — a soft fade with a small
+// upward drift, mirrored on exit so route changes feel continuous rather
+// than a hard cut. Must be the direct AnimatePresence child keyed by route
+// in App.tsx for the exit half to actually run (AnimatePresence detects an
+// outgoing element by its key disappearing from its children).
 export const PageTransition = ({ children }: { children: ReactNode }) => {
-  const { pathname } = useLocation()
+  const reduceMotion = useReducedMotion()
+
   return (
-    <div key={pathname} className="page-transition">
+    <motion.div
+      className="page-transition"
+      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+    >
       {children}
-    </div>
+    </motion.div>
   )
 }

@@ -12,6 +12,8 @@ export type MenuCategory = {
   tagline: string
   image: string
   alt: string
+  /** No business photography of this category exists — the image is a neutral stand-in. */
+  demo?: boolean
   items: MenuItem[]
 }
 
@@ -64,7 +66,7 @@ export const menuCategories: MenuCategory[] = [
     title: 'Facials',
     tagline: 'From a classic clean-up to diamond-tip microdermabrasion.',
     image: menuImages.facials,
-    alt: 'A diamond microdermabrasion facial treatment',
+    alt: 'A clay facial mask being applied at a spa',
     items: [
       { name: 'Classic facial' },
       { name: 'Anti-aging facial' },
@@ -91,7 +93,7 @@ export const menuCategories: MenuCategory[] = [
     title: 'Nail care',
     tagline: 'Manicure, pedicure, and shellac finishes.',
     image: menuImages.nailCare,
-    alt: 'A manicure and pedicure in glossy red polish',
+    alt: 'A nail technician finishing a manicure',
     items: [
       { name: 'Manicure & pedicure', price: '220 ETB' },
       { name: 'Shellac manicure with hair wash & style', price: '300 ETB' },

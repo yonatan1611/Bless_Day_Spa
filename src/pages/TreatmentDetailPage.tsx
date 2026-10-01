@@ -1,7 +1,12 @@
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { PageContainer, Section } from '../components/layout/Primitives'
 import { ImageFrame } from '../components/ui/ImageFrame'
 import { Button } from '../components/ui/Button'
+import { TiltedCard } from '../components/react-bits/TiltedCard'
+import { BlurText } from '../components/react-bits/BlurText'
+import { ScrollReveal } from '../components/react-bits/ScrollReveal'
+import { CardSwap, SwapCard } from '../components/react-bits/CardSwap'
+import { ClickSpark } from '../components/react-bits/ClickSpark'
 import { getService, services } from '../content/services'
 import { treatmentImages, demoServiceSlugs } from '../content/images'
 import { business } from '../content/business'
@@ -12,6 +17,8 @@ const imageByService: Record<string, string> = {
   'moroccan-bath': treatmentImages.moroccanBath,
   'steam-sauna': treatmentImages.steamSauna,
   'hair-salon': treatmentImages.hairSalon,
+  facials: treatmentImages.facials,
+  'nail-care': treatmentImages.nailCare,
 }
 
 export const TreatmentDetailPage = () => {
@@ -22,7 +29,7 @@ export const TreatmentDetailPage = () => {
 
   if (!service) return <Navigate to="/treatments" replace />
 
-  const related = services.filter((item) => item.slug !== service.slug).slice(0, 3)
+  const related = services.filter((item) => item.slug !== service.slug)
 
   return (
     <main id="main-content">
@@ -30,26 +37,22 @@ export const TreatmentDetailPage = () => {
         <PageContainer>
           <div className="detail-hero__grid">
             <div className="detail-hero__media">
-              <ImageFrame
-                variant="hero"
-                aspectRatio="portrait"
-                src={imageByService[service.slug]}
-                demo={demoServiceSlugs.has(service.slug)}
-                priority
-                alt={
+              <TiltedCard
+                imageSrc={imageByService[service.slug]}
+                altText={
                   demoServiceSlugs.has(service.slug)
                     ? `Demonstration ${service.title.toLowerCase()} photography`
                     : `${service.title} at Bless Day Spa`
                 }
+                captionText={service.title}
               />
-              <div className="detail-hero__accent">
-                <ImageFrame variant="thumbnail" aspectRatio="square" src={treatmentImages.detailTexture} demo alt="Demonstration ritual detail" />
-              </div>
             </div>
 
             <div className="detail-hero__copy">
               <p className="eyebrow">Bless Day Spa · Treatments</p>
-              <h1 id="detail-title" className="display-xl">{service.title}</h1>
+              <h1 id="detail-title" className="display-xl">
+                <BlurText text={service.title} tag="span" direction="top" />
+              </h1>
               <p className="body-lg">{service.description}</p>
 
               <dl className="detail-hero__meta">
@@ -59,7 +62,9 @@ export const TreatmentDetailPage = () => {
                 </div>
               </dl>
 
-              <Button to={`/book?service=${service.slug}`} variant="primary" arrow="down-right">Book Appointment</Button>
+              <ClickSpark>
+                <Button to={`/book?service=${service.slug}`} variant="primary" arrow="down-right">Book Appointment</Button>
+              </ClickSpark>
             </div>
           </div>
         </PageContainer>
@@ -68,7 +73,7 @@ export const TreatmentDetailPage = () => {
       <Section aria-label="Treatment details">
         <PageContainer narrow>
           <p className="eyebrow">In detail</p>
-          <p className="body-lg">{service.detail}</p>
+          <ScrollReveal className="service-detail__lead">{service.detail}</ScrollReveal>
           <div className="service-detail__note">
             <span className="eyebrow">Important information</span>
             <p className="body-sm">{service.note}</p>
@@ -77,30 +82,32 @@ export const TreatmentDetailPage = () => {
       </Section>
 
       {related.length > 0 && (
-        <Section aria-labelledby="related-title">
+        <Section aria-labelledby="related-title" className="related-treatments-section">
           <PageContainer>
             <p className="eyebrow">Explore more</p>
             <h2 id="related-title" className="display-md">Other ways to spend your time.</h2>
-            <div className="related-treatments">
-              {related.map((item) => (
-                <Link key={item.slug} to={`/treatments/${item.slug}`} className="related-treatments__item">
-                  <ImageFrame
-                    variant="thumbnail"
-                    aspectRatio="square"
-                    src={imageByService[item.slug]}
-                    demo={demoServiceSlugs.has(item.slug)}
-                    alt={
-                      demoServiceSlugs.has(item.slug)
-                        ? `Demonstration ${item.title.toLowerCase()} photography`
-                        : `${item.title} at Bless Day Spa`
-                    }
-                  />
-                  <span className="related-treatments__name">
-                    {item.title}
-                    <span aria-hidden="true">↗</span>
-                  </span>
-                </Link>
-              ))}
+            <p className="body-sm related-treatments-section__hint">Drag a card away to see the next one.</p>
+            <div className="related-treatments-section__stage">
+              <CardSwap width={280} height={340} delay={4500}>
+                {related.map((item) => (
+                  <SwapCard key={item.slug} className="related-treatments-section__card">
+                    <ImageFrame
+                      variant="thumbnail"
+                      aspectRatio="portrait"
+                      src={imageByService[item.slug]}
+                      demo={demoServiceSlugs.has(item.slug)}
+                      alt={
+                        demoServiceSlugs.has(item.slug)
+                          ? `Demonstration ${item.title.toLowerCase()} photography`
+                          : `${item.title} at Bless Day Spa`
+                      }
+                    />
+                    <Button to={`/treatments/${item.slug}`} variant="text" arrow="up-right" className="related-treatments-section__link">
+                      {item.title}
+                    </Button>
+                  </SwapCard>
+                ))}
+              </CardSwap>
             </div>
           </PageContainer>
         </Section>
@@ -112,7 +119,9 @@ export const TreatmentDetailPage = () => {
           <h2 id="detail-cta-title" className="display-lg">Book your {service.title.toLowerCase()}.</h2>
           <p className="body-lg">Send {business.name} a message to ask about an available time.</p>
           <div className="detail-cta__actions">
-            <Button to={`/book?service=${service.slug}`} variant="primary" arrow="down-right">Book Appointment</Button>
+            <ClickSpark>
+              <Button to={`/book?service=${service.slug}`} variant="primary" arrow="down-right">Book Appointment</Button>
+            </ClickSpark>
             <Button href={business.messengerUrl} variant="secondary" arrow="up-right">Message on Facebook</Button>
           </div>
         </PageContainer>

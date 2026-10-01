@@ -5,34 +5,20 @@ import { Button } from '../components/ui/Button'
 import { TreatmentsHero } from '../components/treatments/TreatmentsHero'
 import { TreatmentIndexRow } from '../components/treatments/TreatmentIndexRow'
 import { TreatmentMenu } from '../components/treatments/TreatmentMenu'
-import { TreatmentSearch, type SearchableItem } from '../components/kokonut/TreatmentSearch'
 import { FlowingMenu } from '../components/react-bits/FlowingMenu'
 import { TiltedCard } from '../components/react-bits/TiltedCard'
 import { ScrollFloat } from '../components/react-bits/ScrollFloat'
 import { getService, services } from '../content/services'
 import { treatmentImages, demoServiceSlugs } from '../content/images'
-import { menuCategories } from '../content/menu'
 import { usePageTitle } from '../hooks/usePageTitle'
-
-const searchableItems: SearchableItem[] = menuCategories.flatMap((category) =>
-  category.items.map((item) => ({
-    id: `${category.slug}-${item.name}`,
-    label: item.name,
-    category: category.title,
-    price: item.price,
-  })),
-)
-
-const onSelectTreatment = (item: SearchableItem) => {
-  void item
-  document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-}
 
 const imageByService: Record<string, string> = {
   massage: treatmentImages.massage,
   'moroccan-bath': treatmentImages.moroccanBath,
   'steam-sauna': treatmentImages.steamSauna,
   'hair-salon': treatmentImages.hairSalon,
+  facials: treatmentImages.facials,
+  'nail-care': treatmentImages.nailCare,
 }
 
 const featured = getService('moroccan-bath')
@@ -48,12 +34,6 @@ export const TreatmentsPage = () => {
         <FlowingMenu
           items={services.map((service) => ({ to: `/treatments/${service.slug}`, label: service.title, image: imageByService[service.slug] }))}
         />
-      </Section>
-
-      <Section aria-label="Search treatments" className="treatments-search-section">
-        <PageContainer>
-          <TreatmentSearch items={searchableItems} onSelect={onSelectTreatment} />
-        </PageContainer>
       </Section>
 
       <TreatmentMenu />

@@ -5,7 +5,7 @@ import { reviews } from '../../content/reviews'
 // Every line here is traceable to docs/research.md or content/reviews.ts —
 // no service quality, experience level, or award claims are made.
 const points = [
-  'Massage, Moroccan bath, steam & sauna, and hair salon — four rituals, one visit',
+  'Massage, Moroccan bath, steam & sauna, hair salon, facials, and nail care — six rituals, one visit',
   business.servesDescription,
   `Open ${business.hours.label}`,
   `"${reviews[1].quote}" — ${reviews[1].attribution}`,

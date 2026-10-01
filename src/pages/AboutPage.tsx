@@ -1,9 +1,10 @@
+import { ArrowRight } from 'lucide-react'
 import { PageContainer, Section } from '../components/layout/Primitives'
 import { EditorialSplit } from '../components/layout/EditorialSplit'
 import { ImageFrame } from '../components/ui/ImageFrame'
 import { Button } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
-import { CardFlip } from '../components/kokonut/CardFlip'
+import { BentoCard } from '../components/react-bits/BentoCard'
 import { BlurText } from '../components/react-bits/BlurText'
 import { VariableProximity } from '../components/react-bits/VariableProximity'
 import { TrueFocus } from '../components/react-bits/TrueFocus'
@@ -14,13 +15,13 @@ import { reviews } from '../content/reviews'
 import { aboutImages } from '../content/images'
 import { usePageTitle } from '../hooks/usePageTitle'
 
-// Real facts only, traced to content/business.ts — hover a card to flip it.
+// Real facts only, traced to content/business.ts.
 const expectFacts = [
   {
-    title: 'Four rituals',
-    subtitle: 'One visit, four ways to unwind',
-    description: 'Massage, Moroccan bath, steam & sauna, and hair salon — together in Wollo Sefer.',
-    features: ['Massage', 'Moroccan bath', 'Steam & sauna', 'Hair salon'],
+    title: 'Six rituals',
+    subtitle: 'One visit, six ways to unwind',
+    description: 'Massage, Moroccan bath, steam & sauna, hair salon, facials, and nail care — together in Wollo Sefer.',
+    features: ['Massage', 'Moroccan bath', 'Steam & sauna', 'Hair salon', 'Facials', 'Nail care'],
   },
   {
     title: business.yearsExperience,
@@ -60,7 +61,7 @@ export const AboutPage = () => {
             >
               <p className="eyebrow">What it is</p>
               <h2 id="about-intro-title" className="display-md">
-                <VariableProximity label="Massage, Moroccan bath, steam & sauna, and hair salon care." radius={100} />
+                <VariableProximity label="Massage, Moroccan bath, steam & sauna, hair salon, facials, and nail care." radius={100} />
               </h2>
               <p className="body">Full pricing for every treatment is on the treatments page.</p>
               <Button to="/treatments" variant="text" arrow="down-right">Browse treatments</Button>
@@ -73,11 +74,23 @@ export const AboutPage = () => {
         <PageContainer>
           <Reveal>
             <p className="eyebrow">What to expect</p>
-            <h2 id="expect-title" className="display-md">Hover to look closer.</h2>
+            <h2 id="expect-title" className="display-md">The essentials, before you book.</h2>
           </Reveal>
           <Reveal delay={120} className="about-expect">
             {expectFacts.map((fact) => (
-              <CardFlip key={fact.title} {...fact} />
+              <BentoCard key={fact.title} className="about-expect__tile">
+                <span className="about-expect__title display-sm">{fact.title}</span>
+                <p className="body-sm about-expect__subtitle">{fact.subtitle}</p>
+                <p className="body-sm">{fact.description}</p>
+                <ul className="about-expect__features">
+                  {fact.features.map((feature) => (
+                    <li key={feature}>
+                      <ArrowRight aria-hidden="true" className="about-expect__feature-icon" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </BentoCard>
             ))}
           </Reveal>
         </PageContainer>
@@ -105,7 +118,7 @@ export const AboutPage = () => {
         <PageContainer narrow>
           <Reveal>
             <p className="eyebrow">All in one visit</p>
-            <TrueFocus sentence="Massage Moroccan Bath Steam Sauna Hair Salon" />
+            <TrueFocus sentence="Massage Moroccan Bath Steam Sauna Hair Salon Facials Nail Care" />
           </Reveal>
         </PageContainer>
       </Section>

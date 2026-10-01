@@ -1,11 +1,14 @@
 import { PageContainer, Section } from '../components/layout/Primitives'
-import { ImageFrame } from '../components/ui/ImageFrame'
+import { SectionHeading } from '../components/layout/SectionHeading'
 import { Button } from '../components/ui/Button'
 import { Reveal } from '../components/ui/Reveal'
+import { BlurText } from '../components/react-bits/BlurText'
+import { TiltedCard } from '../components/react-bits/TiltedCard'
+import { ClickSpark } from '../components/react-bits/ClickSpark'
+import { onSpotlightPointerMove } from '../lib/spotlight'
 import { packages } from '../content/packages'
 import { services } from '../content/services'
 import { business } from '../content/business'
-import { packagesImage } from '../content/images'
 import { usePageTitle } from '../hooks/usePageTitle'
 
 export const PackagesPage = () => {
@@ -13,41 +16,46 @@ export const PackagesPage = () => {
 
   return (
     <main id="main-content">
-      <section className="packages-hero" aria-labelledby="packages-hero-title">
-        <div className="packages-hero__media">
-          <ImageFrame
-            variant="hero"
-            src={packagesImage}
-            priority
-            alt="A private treatment room at Bless Day Spa, lit lattice divider and rose petals"
-          />
-        </div>
-        <div className="packages-hero__copy">
-          <p className="eyebrow packages-hero__eyebrow">Packages</p>
-          <h1 id="packages-hero-title" className="packages-hero__title">Grouped visits, ready to book.</h1>
-          <p className="body-lg packages-hero__intro">
-            Two treatments combined into a single visit. Prices are shown as listed by Bless Day
-            Spa — please confirm current rates when you book.
-          </p>
-        </div>
-      </section>
+      <Section padding="top" className="page-intro">
+        <PageContainer narrow>
+          <SectionHeading
+            level={1}
+            eyebrow="Packages"
+            title={<BlurText text="Grouped visits, ready to book." tag="span" direction="top" />}
+          >
+            <p className="body-lg">
+              Two treatments combined into a single visit. Prices are shown as listed by Bless Day
+              Spa — please confirm current rates when you book.
+            </p>
+          </SectionHeading>
+        </PageContainer>
+      </Section>
 
       {packages.length > 0 ? (
         <Section aria-label="Packages">
           <PageContainer>
-            <div className="package-grid">
-              {packages.map((item) => (
-                <article key={item.slug} className="package-card">
-                  <ImageFrame variant="editorial" aspectRatio="landscape" src={item.image} alt={item.alt} />
-                  <div className="package-card__body">
-                    <div className="package-card__heading">
-                      <h2 className="h3">{item.name}</h2>
-                      <span className="package-card__price">{item.price}</span>
+            <div className="package-stack">
+              {packages.map((item, index) => (
+                <Reveal key={item.slug}>
+                  <article
+                    className={`package-panel ${index % 2 === 1 ? 'package-panel--reverse' : ''}`}
+                    onMouseMove={onSpotlightPointerMove}
+                  >
+                    <span className="package-panel__spotlight" aria-hidden="true" />
+                    <div className="package-panel__media">
+                      <TiltedCard imageSrc={item.image} altText={item.alt} captionText={item.name} />
                     </div>
-                    <p className="body-sm">{item.description}</p>
-                    <Button to={`/book?package=${item.slug}`} variant="secondary" arrow="down-right">Book this package</Button>
-                  </div>
-                </article>
+                    <div className="package-panel__body">
+                      <span className="package-panel__number" aria-hidden="true">0{index + 1}</span>
+                      <h2 className="display-lg">{item.name}</h2>
+                      <span className="package-panel__price">{item.price}</span>
+                      <p className="body-lg">{item.description}</p>
+                      <ClickSpark>
+                        <Button to={`/book?package=${item.slug}`} variant="primary" arrow="down-right">Book this package</Button>
+                      </ClickSpark>
+                    </div>
+                  </article>
+                </Reveal>
               ))}
             </div>
           </PageContainer>
@@ -95,7 +103,9 @@ export const PackagesPage = () => {
           <h2 id="packages-cta-title" className="display-lg">Ask about your visit.</h2>
           <p className="body-lg">Send {business.name} a message to talk through what you need.</p>
           <div className="packages-cta__actions">
-            <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+            <ClickSpark>
+              <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+            </ClickSpark>
             <Button to="/treatments" variant="secondary" arrow="down-right">Explore Treatments</Button>
           </div>
         </PageContainer>

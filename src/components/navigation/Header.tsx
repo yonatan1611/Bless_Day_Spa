@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { motion, AnimatePresence } from 'motion/react'
+import { Menu, X } from 'lucide-react'
 import { Button } from '../ui/Button'
-import { PageContainer } from '../layout/Primitives'
+import { PillNav } from '../react-bits/PillNav'
+import { ClickSpark } from '../react-bits/ClickSpark'
 
 const navigation = [
   { label: 'Treatments', to: '/treatments' },
@@ -11,25 +14,16 @@ const navigation = [
   { label: 'Contact', to: '/contact' },
 ]
 
-const SCROLL_THRESHOLD = 72
-
-// Routes whose top section is full-bleed hero imagery — the header sits
-// transparent over these until the visitor scrolls, then turns solid.
-const heroRoutes = new Set(['/'])
-
+// Structurally different from the old full-width bar: three separate
+// floating glass clusters (brand mark, pill nav, actions) instead of one
+// continuous header, always the same translucent-ivory treatment rather
+// than a transparent-over-hero/solid-on-scroll state machine — legible over
+// both the dark hero photo and every light page background without needing
+// to know which one it's on.
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
   const toggleRef = useRef<HTMLButtonElement>(null)
   const location = useLocation()
-  const overHero = heroRoutes.has(location.pathname)
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > SCROLL_THRESHOLD)
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   useEffect(() => {
     setIsOpen(false)
@@ -52,58 +46,75 @@ export const Header = () => {
     return () => document.body.classList.remove('nav-open')
   }, [isOpen])
 
-  const transparent = overHero && !isScrolled && !isOpen
-
   return (
-    <header
-      className={`header ${transparent ? 'header--transparent' : 'header--solid'} ${isScrolled ? 'header--scrolled' : ''}`}
-    >
-      <PageContainer className="header__row">
-        <Link to="/" className="header__brand" aria-label="Bless Day Spa home">
-          <img src="/images/brand/bless-mark.png" alt="" aria-hidden="true" className="header__brand-mark" />
-          <span className="header__brand-name">Bless Day Spa</span>
-        </Link>
+    <header className="floating-header">
+      <Link to="/" className="floating-header__brand" aria-label="Bless Day Spa home">
+        <img src="/images/brand/bless-mark.png" alt="" aria-hidden="true" />
+      </Link>
 
-        <nav className="header__nav" aria-label="Main navigation">
-          {navigation.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) => `header__link${isActive ? ' header__link--active' : ''}`}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
+      <nav className="floating-header__nav" aria-label="Main navigation">
+        <PillNav
+          items={navigation}
+          activePath={location.pathname}
+          baseColor="#1A1A1A"
+          pillTextColor="#1A1A1A"
+          hoverTextColor="#FAF7F2"
+        />
+      </nav>
 
-        <div className="header__actions">
-          <Button to="/book" variant="primary" className="header__cta">Book Appointment</Button>
-          <button
-            ref={toggleRef}
-            type="button"
-            className="header__menu-toggle"
-            onClick={() => setIsOpen((current) => !current)}
-            aria-expanded={isOpen}
-            aria-controls="mobile-navigation"
-          >
-            <span className="sr-only">{isOpen ? 'Close menu' : 'Open menu'}</span>
-            <span className={`header__menu-icon ${isOpen ? 'header__menu-icon--open' : ''}`} aria-hidden="true" />
-          </button>
-        </div>
-      </PageContainer>
-
-      <div id="mobile-navigation" className={`header__mobile ${isOpen ? 'header__mobile--open' : ''}`} aria-hidden={!isOpen}>
-        <nav className="header__mobile-nav" aria-label="Mobile navigation">
-          {navigation.map((item) => (
-            <Link key={item.to} to={item.to} className="header__mobile-link" tabIndex={isOpen ? 0 : -1}>
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-        <Button to="/book" variant="primary" className="header__mobile-cta" tabIndex={isOpen ? 0 : -1}>
-          Book Appointment
-        </Button>
+      <div className="floating-header__actions">
+        <ClickSpark>
+          <Button to="/book" variant="primary" className="floating-header__cta">Book Appointment</Button>
+        </ClickSpark>
+        <button
+          ref={toggleRef}
+          type="button"
+          className="floating-header__toggle"
+          onClick={() => setIsOpen((current) => !current)}
+          aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
+        >
+          <span className="sr-only">{isOpen ? 'Close menu' : 'Open menu'}</span>
+          {isOpen ? <X aria-hidden="true" size={20} /> : <Menu aria-hidden="true" size={20} />}
+        </button>
       </div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            id="mobile-navigation"
+            className="floating-header__mobile"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            <motion.nav
+              className="floating-header__mobile-nav"
+              aria-label="Mobile navigation"
+              initial="hidden"
+              animate="show"
+              variants={{ show: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } } }}
+            >
+              {navigation.map((item) => (
+                <motion.div
+                  key={item.to}
+                  variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
+                >
+                  <Link to={item.to} className="floating-header__mobile-link">
+                    {item.label}
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.nav>
+            <motion.div variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }} initial="hidden" animate="show" transition={{ delay: 0.4 }}>
+              <Button to="/book" variant="primary" className="floating-header__mobile-cta">
+                Book Appointment
+              </Button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

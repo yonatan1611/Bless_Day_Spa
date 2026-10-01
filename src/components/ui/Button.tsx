@@ -1,5 +1,6 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react'
 import { Link, type LinkProps } from 'react-router-dom'
+import { Magnet } from '../react-bits/Magnet'
 
 type ButtonVariant = 'primary' | 'secondary' | 'text'
 
@@ -23,29 +24,24 @@ export const Button = ({ variant = 'primary', className = '', arrow = 'none', ch
   const classes = `button button--${variant} ${className}`.trim()
   const glyph = arrow !== 'none' && <span className="button__arrow" aria-hidden="true">{arrowGlyph[arrow]}</span>
 
+  let element: ReactNode
   if ('to' in props && props.to !== undefined) {
     const { to, ...rest } = props as Omit<AsInternalLink, keyof CommonProps>
-    return (
-      <Link to={to} className={classes} {...rest}>
-        {children}{glyph}
-      </Link>
-    )
-  }
-
-  if ('href' in props && props.href !== undefined) {
+    element = <Link to={to} className={classes} {...rest}>{children}{glyph}</Link>
+  } else if ('href' in props && props.href !== undefined) {
     const { href, ...rest } = props as Omit<AsExternalLink, keyof CommonProps>
     const isExternal = href.startsWith('http')
-    return (
+    element = (
       <a href={href} className={classes} target={isExternal ? '_blank' : undefined} rel={isExternal ? 'noreferrer' : undefined} {...rest}>
         {children}{glyph}
       </a>
     )
+  } else {
+    const rest = props as Omit<AsButton, keyof CommonProps>
+    element = <button type="button" className={classes} {...rest}>{children}{glyph}</button>
   }
 
-  const rest = props as Omit<AsButton, keyof CommonProps>
-  return (
-    <button type="button" className={classes} {...rest}>
-      {children}{glyph}
-    </button>
-  )
+  // Magnetic pull (React Bits' Magnet, see react-bits/Magnet.tsx) reserved
+  // for primary CTAs, so it stays a signature moment rather than a default.
+  return variant === 'primary' ? <Magnet className="button-magnet">{element}</Magnet> : element
 }

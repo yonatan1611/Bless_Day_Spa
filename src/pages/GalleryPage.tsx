@@ -1,5 +1,6 @@
 import { useState, type MouseEvent } from 'react'
 import { PageContainer, Section } from '../components/layout/Primitives'
+import { Reveal } from '../components/ui/Reveal'
 import { Button } from '../components/ui/Button'
 import { Lightbox } from '../components/ui/Lightbox'
 import { Masonry, type MasonryItem } from '../components/react-bits/Masonry'
@@ -7,9 +8,28 @@ import { Stack } from '../components/react-bits/Stack'
 import { ScrollFloat } from '../components/react-bits/ScrollFloat'
 import { GradientText } from '../components/react-bits/GradientText'
 import { ClickSpark } from '../components/react-bits/ClickSpark'
-import { galleryImages } from '../content/images'
+import { ChromaGrid, type ChromaItem } from '../components/react-bits/ChromaGrid'
+import { galleryImages, treatmentImages } from '../content/images'
+import { services } from '../content/services'
 import { business } from '../content/business'
 import { usePageTitle } from '../hooks/usePageTitle'
+
+const roomImages: Record<string, string> = {
+  massage: treatmentImages.massage,
+  'moroccan-bath': treatmentImages.moroccanBath,
+  'steam-sauna': treatmentImages.steamSauna,
+  'hair-salon': treatmentImages.hairSalon,
+  facials: treatmentImages.facials,
+  'nail-care': treatmentImages.nailCare,
+}
+
+const rooms: ChromaItem[] = services.map((service) => ({
+  image: roomImages[service.slug],
+  title: service.title,
+  subtitle: service.description,
+  category: 'Treatment',
+  to: `/treatments/${service.slug}`,
+}))
 
 // Follows the cursor with a "View" pill (desktop only, see the
 // @media (hover: hover) gate on .masonry-item__view-label in global.css).
@@ -24,12 +44,12 @@ const onItemMove = (event: MouseEvent<HTMLDivElement>) => {
 // this before any image has loaded, so the grid never reflows as photos
 // come in.
 const shots = [
-  { src: galleryImages.stoneTexture, alt: 'Grey marble tile in the Moroccan bath room at Bless Day Spa', caption: 'Moroccan bath tile', aspect: 4 / 7, featured: false },
+  { src: galleryImages.corridor, alt: 'A sunlit column between two treatment lounges at Bless Day Spa', caption: 'Between the lounges', aspect: 5 / 4, featured: false },
   { src: galleryImages.skincare, alt: 'Deep tissue massage at Bless Day Spa', caption: 'Deep tissue massage', aspect: 10 / 9, featured: true },
   { src: galleryImages.fabric, alt: 'A floor-mattress treatment room at Bless Day Spa', caption: 'A treatment room', aspect: 4 / 3, featured: true },
-  { src: galleryImages.chair, alt: 'Styling chairs in the hair salon at Bless Day Spa', caption: 'The hair salon', aspect: 3 / 2, featured: false },
-  { src: galleryImages.sandstone, alt: 'Sandstone-toned tile in the Moroccan bath room at Bless Day Spa', caption: 'Sandstone detail', aspect: 2 / 3, featured: false },
-  { src: galleryImages.clothHook, alt: 'Rose petals on a treatment bed at Bless Day Spa', caption: 'A quiet detail', aspect: 2 / 3, featured: false },
+  { src: galleryImages.salonCorner, alt: 'The chandelier and sofa nook in the hair salon at Bless Day Spa', caption: 'The hair salon', aspect: 5 / 8, featured: false },
+  { src: galleryImages.sandstone, alt: 'Sandstone-toned tile in the Moroccan bath room at Bless Day Spa', caption: 'The Moroccan bath room', aspect: 2 / 3, featured: false },
+  { src: galleryImages.roseDetail, alt: 'Roses and rolled towels on a row of treatment beds at Bless Day Spa', caption: 'A quiet detail', aspect: 21 / 10, featured: false },
   { src: galleryImages.towel, alt: 'Hot stone massage at Bless Day Spa', caption: 'Hot stone massage', aspect: 3 / 4, featured: true },
 ]
 
@@ -87,6 +107,18 @@ export const GalleryPage = () => {
       <Section padding="bottom">
         <PageContainer>
           <Masonry items={items} onSelect={setOpenIndex} />
+        </PageContainer>
+      </Section>
+
+      <Section aria-labelledby="gallery-rooms-title">
+        <PageContainer>
+          <Reveal>
+            <p className="eyebrow">Explore by room</p>
+            <h2 id="gallery-rooms-title" className="display-md">See where each treatment happens.</h2>
+          </Reveal>
+          <Reveal delay={120}>
+            <ChromaGrid items={rooms} className="gallery-rooms" />
+          </Reveal>
         </PageContainer>
       </Section>
 

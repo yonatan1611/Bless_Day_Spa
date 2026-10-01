@@ -1,14 +1,14 @@
 import { Hero } from '../components/sections/Hero'
 import { TrustStrip } from '../components/sections/TrustStrip'
-import { BrandIntro } from '../components/sections/BrandIntro'
+import { BrandStatement } from '../components/sections/BrandStatement'
 import { TreatmentExplorer } from '../components/sections/TreatmentExplorer'
-import { SignatureExperience } from '../components/sections/SignatureExperience'
-import { PackagesTeaser } from '../components/sections/PackagesTeaser'
-import { AtmosphereGallery } from '../components/sections/AtmosphereGallery'
-import { WhyBlessDaySpa } from '../components/sections/WhyBlessDaySpa'
-import { Testimonials } from '../components/sections/Testimonials'
+import { SignatureExperiences } from '../components/sections/SignatureExperiences'
+import { BlessExperience } from '../components/sections/BlessExperience'
 import { BookingCta } from '../components/sections/BookingCta'
+import { Testimonials } from '../components/sections/Testimonials'
+import { AtmosphereGallery } from '../components/sections/AtmosphereGallery'
 import { VisitSection } from '../components/sections/VisitSection'
+import { FinalCta } from '../components/sections/FinalCta'
 import { usePageTitle } from '../hooks/usePageTitle'
 
 export const HomePage = () => {
@@ -18,15 +18,15 @@ export const HomePage = () => {
     <main id="main-content">
       <Hero />
       <TrustStrip />
-      <BrandIntro />
+      <BrandStatement />
       <TreatmentExplorer />
-      <SignatureExperience />
-      <PackagesTeaser />
-      <AtmosphereGallery />
-      <WhyBlessDaySpa />
-      <Testimonials />
+      <SignatureExperiences />
+      <BlessExperience />
       <BookingCta />
+      <Testimonials />
+      <AtmosphereGallery />
       <VisitSection />
+      <FinalCta />
     </main>
   )
 }

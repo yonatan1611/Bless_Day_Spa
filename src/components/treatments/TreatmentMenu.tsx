@@ -90,7 +90,7 @@ export const TreatmentMenu = () => {
                 inert={index !== active}
               >
                 <div className="menu-explorer__media">
-                  <ImageFrame variant="service" src={item.image} alt={item.alt} />
+                  <ImageFrame variant="service" src={item.image} alt={item.alt} demo={item.demo} />
                 </div>
 
                 <div className="menu-explorer__copy">

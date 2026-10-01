@@ -45,7 +45,7 @@ export const ImageFrame = ({
             src={src}
             alt={alt}
             loading={priority ? 'eager' : 'lazy'}
-            decoding="async"
+            decoding={priority ? 'sync' : 'async'}
             style={{ objectPosition }}
           />
         ) : (

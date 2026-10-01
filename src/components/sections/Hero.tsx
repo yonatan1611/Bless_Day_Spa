@@ -80,8 +80,9 @@ export const Hero = () => {
           variant="hero"
           src={homepageImages.hero}
           priority
-          alt="A warm-lit steam room at Bless Day Spa, with a rose on the treatment bed"
+          alt="A sunlit treatment lounge at Bless Day Spa, with roses resting on the beds"
           className="hero__image"
+          objectPosition="center 55%"
         />
       </motion.div>
 

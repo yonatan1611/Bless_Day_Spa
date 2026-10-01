@@ -1,14 +1,43 @@
-import { Link } from 'react-router-dom'
 import { PageContainer } from '../layout/Primitives'
+import { CardNav, type CardNavGroup } from '../react-bits/CardNav'
+import { Magnet } from '../react-bits/Magnet'
+import { GradientText } from '../react-bits/GradientText'
 import { business } from '../../content/business'
 
-const links = [
-  { label: 'Treatments', to: '/treatments' },
-  { label: 'Packages', to: '/packages' },
-  { label: 'About', to: '/about' },
-  { label: 'Gallery', to: '/gallery' },
-  { label: 'Reviews', to: '/reviews' },
-  { label: 'Contact', to: '/contact' },
+// A complete rebuild, not a restyle: the old footer's plain link column is
+// replaced by an expandable CardNav (React Bits) trigger, and the closing
+// line gets an animated gradient instead of static type.
+const navGroups: CardNavGroup[] = [
+  {
+    label: 'Explore',
+    bgColor: 'var(--color-sage)',
+    textColor: 'var(--color-ivory)',
+    links: [
+      { label: 'Treatments', to: '/treatments' },
+      { label: 'Packages', to: '/packages' },
+      { label: 'Gallery', to: '/gallery' },
+      { label: 'Reviews', to: '/reviews' },
+    ],
+  },
+  {
+    label: 'Visit',
+    bgColor: 'var(--color-clay)',
+    textColor: 'var(--color-ivory)',
+    links: [
+      { label: 'About', to: '/about' },
+      { label: 'Contact', to: '/contact' },
+      { label: 'Open in Google Maps', to: business.mapUrl, external: true },
+    ],
+  },
+  {
+    label: 'Connect',
+    bgColor: 'var(--color-charcoal)',
+    textColor: 'var(--color-ivory)',
+    links: [
+      { label: 'Book Appointment', to: '/book' },
+      { label: 'Message on Facebook', to: business.messengerUrl, external: true },
+    ],
+  },
 ]
 
 export const Footer = () => {
@@ -16,20 +45,21 @@ export const Footer = () => {
   return (
     <footer className="footer">
       <PageContainer>
-        <div className="footer__top">
-          <div className="footer__brand">
-            <img src="/images/brand/bless-mark.png" alt="" aria-hidden="true" className="footer__brand-mark" />
-            <span className="display-md">{business.name}</span>
-            <p className="body-sm footer__muted">{business.servesDescription}</p>
-          </div>
+        <div className="footer__statement">
+          <p className="eyebrow">{business.name}</p>
+          <h2 className="footer__headline">
+            <GradientText colors={['var(--color-ivory)', 'var(--color-clay)', 'var(--color-ivory)']}>
+              Make room for a blessed day.
+            </GradientText>
+          </h2>
+        </div>
 
-          <nav className="footer__nav" aria-label="Footer navigation">
-            {links.map((link) => (
-              <Link key={link.to} to={link.to}>{link.label}</Link>
-            ))}
-          </nav>
+        <div className="footer__nav">
+          <CardNav items={navGroups} triggerLabel="Explore the site" />
+        </div>
 
-          <div className="footer__visit">
+        <div className="footer__visit">
+          <div>
             <p className="eyebrow">Visit</p>
             <p className="body-sm footer__address">
               {business.areaDescription}
@@ -39,10 +69,12 @@ export const Footer = () => {
               {business.city}
             </p>
             <p className="body-sm footer__muted">{business.hours.label}</p>
-            <a className="text-link" href={business.messengerUrl} target="_blank" rel="noreferrer">
-              Message on Facebook
-            </a>
           </div>
+          <Magnet padding={40}>
+            <a className="footer__brand-mark-link" href="/" aria-label="Bless Day Spa home">
+              <img src="/images/brand/bless-mark.png" alt="" aria-hidden="true" className="footer__brand-mark" />
+            </a>
+          </Magnet>
         </div>
 
         <div className="footer__bottom">
