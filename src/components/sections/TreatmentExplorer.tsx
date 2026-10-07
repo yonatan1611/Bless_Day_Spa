@@ -4,7 +4,7 @@ import { PageContainer, Section } from '../layout/Primitives'
 import { SectionHeading } from '../layout/SectionHeading'
 import { Button } from '../ui/Button'
 import { Reveal } from '../ui/Reveal'
-import { TiltedCard } from '../react-bits/TiltedCard'
+import { ImageFrame } from '../ui/ImageFrame'
 import { services } from '../../content/services'
 import { homepageImages, demoServiceSlugs } from '../../content/images'
 import { menuCategories } from '../../content/menu'
@@ -14,21 +14,17 @@ const imageByService: Record<string, string> = {
   massage: homepageImages.massage,
   'moroccan-bath': homepageImages.moroccanBath,
   'steam-sauna': homepageImages.steamSauna,
-  'hair-salon': homepageImages.hairSalon,
   facials: homepageImages.facials,
-  'nail-care': homepageImages.nailCare,
 }
 
-// The explorer's broad categories map onto the real, flyer-sourced
-// menu categories in content/menu.ts so we can surface an honest "from"
-// price here — never a fabricated one.
+// The explorer's broad categories map onto the real menu categories in
+// content/menu.ts (sourced directly from the owners) so we can surface an
+// honest "from" price here — never a fabricated one.
 const menuSlugByService: Record<string, string> = {
   massage: 'massage',
   'moroccan-bath': 'moroccan-bath',
   'steam-sauna': 'steam-sauna',
-  'hair-salon': 'hair-and-beauty',
   facials: 'facials',
-  'nail-care': 'nail-care',
 }
 
 const startingPriceByService: Record<string, string | undefined> = Object.fromEntries(
@@ -71,7 +67,7 @@ export const TreatmentExplorer = () => {
       <PageContainer>
         <Reveal>
           <SectionHeading eyebrow="At the spa" title="Choose the time you need." id="explorer-title">
-            <p className="body-lg">Six ways to spend a little longer with yourself. Select one to look closer.</p>
+            <p className="body-lg">Four ways to spend a little longer with yourself. Select one to look closer.</p>
           </SectionHeading>
         </Reveal>
 
@@ -122,14 +118,14 @@ export const TreatmentExplorer = () => {
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               >
                 <div className="explorer__panel-media">
-                  <TiltedCard
-                    imageSrc={imageByService[services[active].slug]}
-                    altText={
+                  <ImageFrame
+                    aspectRatio="auto"
+                    src={imageByService[services[active].slug]}
+                    alt={
                       demoServiceSlugs.has(services[active].slug)
                         ? `Demonstration ${services[active].title.toLowerCase()} photography`
                         : `${services[active].title} at Bless Day Spa`
                     }
-                    captionText={services[active].title}
                   />
                 </div>
                 <div className="explorer__copy">
@@ -138,7 +134,7 @@ export const TreatmentExplorer = () => {
                   <p className="body-sm explorer__note">{services[active].note}</p>
                   <div className="explorer__actions">
                     <Button to={`/treatments/${services[active].slug}`} variant="secondary" arrow="up-right">View treatment</Button>
-                    <Button to="/book" variant="primary" arrow="down-right">Book now</Button>
+                    <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
                   </div>
                 </div>
               </motion.div>

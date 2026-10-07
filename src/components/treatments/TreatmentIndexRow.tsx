@@ -23,7 +23,6 @@ export const TreatmentIndexRow = ({ service, image, demo, index, reversed }: Tre
     </div>
     <div className="treatment-row__copy">
       <span className="treatment-row__number">0{index + 1}</span>
-      <p className="eyebrow">Treatment</p>
       <h3 className="display-md">{service.title}</h3>
       <p className="body-lg">{service.description}</p>
       <p className="body-sm treatment-row__note">{service.note}</p>

@@ -60,6 +60,37 @@ claims"), the first-party material wins. The caveats below still apply to
 anything the business hasn't itself confirmed (exact address, email,
 WhatsApp, opening year, ownership, certifications).
 
+## Update: current menu supplied directly by the owners (October 2026)
+
+The site maintainer spoke with the owners directly and was sent the
+business's current, authoritative menu verbatim: Moroccan Bath (10 items,
+five variations each with an optional light-massage add-on), Massage (8
+items), Steam & Sauna (4 items), Facial (1 item, Microdermabrasion), and a
+generator fee for power during treatments. This replaces the earlier
+flyer-sourced price list in `src/content/menu.ts` entirely — flyers can go
+stale, a direct conversation with the owners doesn't.
+
+The owners also confirmed two things explicitly:
+- **Hair salon services have been discontinued.** Removed from
+  `src/content/services.ts` and `src/content/menu.ts` (the former
+  `hair-and-beauty` category), along with its dedicated images in
+  `src/content/images.ts`. A real photo of a salon-area lounge nook is kept
+  in the Gallery's masonry grid, recaptioned neutrally rather than implying
+  a bookable hair service still exists.
+- **Packages have been discontinued** ("they don't have a package, they
+  stopped doing that"). The whole feature was removed rather than left as a
+  stale "coming soon" page: `src/content/packages.ts`, `PackagesPage.tsx`,
+  `SignatureExperiences.tsx`, the `/packages` route, and its nav links are
+  all gone.
+
+Nail care is absent from this new, authoritative menu. It wasn't explicitly
+called "stopped" the way hair salon and packages were, but the previous
+packages were nail-care based, and the owners described this as their
+current menu in full — so it's treated as no longer offered and has been
+removed from `src/content/services.ts` and `src/content/images.ts` rather
+than left listed without a confirmed price. If it turns out nail care is
+still available, it can be reinstated once that's confirmed.
+
 ## Content implications
 
 - Start with a clear, factual local introduction—not invented wellness language.

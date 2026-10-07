@@ -9,8 +9,8 @@ import { usePageTitle } from '../hooks/usePageTitle'
 // A real multi-step interface (BookingStepper) that emails the request to
 // the spa (see docs/booking-email-setup.md) — still honest that it's a
 // request, not a live-calendar confirmation, since there's no appointment
-// system behind it. BookingStepper resolves ?service=/?package= itself
-// (a service slug maps onto the menu category it's priced under).
+// system behind it. BookingStepper resolves ?service= itself (a service
+// slug maps onto the menu category it's priced under).
 export const BookPage = () => {
   usePageTitle('Book Appointment')
   const [searchParams] = useSearchParams()
@@ -26,7 +26,7 @@ export const BookPage = () => {
           >
             <p className="body-lg">
               Choose what you're after, and we'll help you put together a message to{' '}
-              {business.name} — this is a request, not a confirmed booking.
+              {business.name}. This is a request, not a confirmed booking.
             </p>
           </SectionHeading>
         </PageContainer>
@@ -34,10 +34,7 @@ export const BookPage = () => {
 
       <Section>
         <PageContainer narrow>
-          <BookingStepper
-            initialServiceSlug={searchParams.get('service') ?? undefined}
-            initialPackageSlug={searchParams.get('package') ?? undefined}
-          />
+          <BookingStepper initialServiceSlug={searchParams.get('service') ?? undefined} />
         </PageContainer>
       </Section>
     </main>

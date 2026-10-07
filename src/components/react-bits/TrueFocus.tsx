@@ -4,7 +4,7 @@ import { motion } from 'motion/react'
 // Adapted from React Bits' TrueFocus (reactbits.dev) — words blur in and
 // out of focus in sequence, with a camera-style corner bracket tracking the
 // sharp word. Recolored from the original's green default to the site's
-// clay accent.
+// rose accent.
 type TrueFocusProps = {
   sentence: string
   className?: string

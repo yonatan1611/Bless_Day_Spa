@@ -2,9 +2,8 @@ import { SectionHeading } from '../components/layout/SectionHeading'
 import { PageContainer, Section } from '../components/layout/Primitives'
 import { ImageFrame } from '../components/ui/ImageFrame'
 import { BlurText } from '../components/react-bits/BlurText'
-import { CardSwap, SwapCard } from '../components/react-bits/CardSwap'
+import { Carousel } from '../components/react-bits/Carousel'
 import { ScrollVelocity } from '../components/react-bits/ScrollVelocity'
-import { GradientText } from '../components/react-bits/GradientText'
 import { reviews } from '../content/reviews'
 import { reviewsImage } from '../content/images'
 import { usePageTitle } from '../hooks/usePageTitle'
@@ -25,28 +24,27 @@ export const ReviewsPage = () => {
         </PageContainer>
       </Section>
 
-      <ScrollVelocity text="TRIPADVISOR GUEST REVIEWS · " className="reviews-marquee" />
+      <ScrollVelocity text="Tripadvisor guest reviews · " className="reviews-marquee" />
 
       <Section padding="bottom">
         <PageContainer>
           <div className="reviews-spotlight">
             <div className="reviews-spotlight__media">
-              <ImageFrame variant="editorial" aspectRatio="portrait" src={reviewsImage} alt="A lounge corner in the hair salon at Bless Day Spa" />
+              <ImageFrame variant="editorial" aspectRatio="portrait" src={reviewsImage} alt="A lounge corner at Bless Day Spa" />
             </div>
 
             <div className="reviews-spotlight__content">
-              <p className="eyebrow"><GradientText>Real reviews, cycling automatically</GradientText></p>
               <div className="reviews-spotlight__stage">
-                <CardSwap width="100%" height={260} delay={5000}>
-                  {reviews.map((review) => (
-                    <SwapCard key={review.attribution} className="reviews-spotlight__card">
-                      <blockquote className="reviews-spotlight__quote">
-                        <p>&ldquo;{review.quote}&rdquo;</p>
-                        <footer className="body-sm">{review.attribution}</footer>
-                      </blockquote>
-                    </SwapCard>
+                <Carousel
+                  ariaLabel="Guest reviews"
+                  autoplayDelay={5000}
+                  items={reviews.map((review) => (
+                    <blockquote key={review.attribution} className="reviews-spotlight__quote">
+                      <p>&ldquo;{review.quote}&rdquo;</p>
+                      <footer className="body-sm">{review.attribution}</footer>
+                    </blockquote>
                   ))}
-                </CardSwap>
+                />
               </div>
             </div>
           </div>

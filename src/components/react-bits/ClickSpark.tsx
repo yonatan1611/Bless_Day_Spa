@@ -2,14 +2,12 @@ import { useCallback, useEffect, useRef, type MouseEvent, type PropsWithChildren
 
 // Adapted from React Bits' ClickSpark (reactbits.dev) — a canvas-drawn
 // burst of small lines radiating from the click point. Wraps any clickable
-// element for tactile feedback; used site-wide on primary CTAs (lighter
-// touch than Kokonut's particle-button, which is reserved for the one-off
-// closing CTA).
+// element for tactile feedback; used on primary CTAs.
 type ClickSparkProps = PropsWithChildren<{ className?: string; sparkColor?: string }>
 
 // A literal color, not a var() reference — canvas strokeStyle can't resolve
-// nested custom properties, so this mirrors --color-clay's actual value.
-export const ClickSpark = ({ children, className = '', sparkColor = '#A97C63' }: ClickSparkProps) => {
+// nested custom properties, so this mirrors --color-rose's actual value.
+export const ClickSpark = ({ children, className = '', sparkColor = '#8C3346' }: ClickSparkProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const sparks = useRef<Array<{ x: number; y: number; angle: number; start: number }>>([])
 

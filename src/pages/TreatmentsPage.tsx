@@ -1,24 +1,19 @@
 import { PageContainer, Section } from '../components/layout/Primitives'
-import { SectionHeading } from '../components/layout/SectionHeading'
 import { Reveal } from '../components/ui/Reveal'
+import { ImageFrame } from '../components/ui/ImageFrame'
 import { Button } from '../components/ui/Button'
 import { TreatmentsHero } from '../components/treatments/TreatmentsHero'
-import { TreatmentIndexRow } from '../components/treatments/TreatmentIndexRow'
 import { TreatmentMenu } from '../components/treatments/TreatmentMenu'
 import { FlowingMenu } from '../components/react-bits/FlowingMenu'
-import { TiltedCard } from '../components/react-bits/TiltedCard'
-import { ScrollFloat } from '../components/react-bits/ScrollFloat'
 import { getService, services } from '../content/services'
-import { treatmentImages, demoServiceSlugs } from '../content/images'
+import { treatmentImages } from '../content/images'
 import { usePageTitle } from '../hooks/usePageTitle'
 
 const imageByService: Record<string, string> = {
   massage: treatmentImages.massage,
   'moroccan-bath': treatmentImages.moroccanBath,
   'steam-sauna': treatmentImages.steamSauna,
-  'hair-salon': treatmentImages.hairSalon,
   facials: treatmentImages.facials,
-  'nail-care': treatmentImages.nailCare,
 }
 
 const featured = getService('moroccan-bath')
@@ -43,16 +38,17 @@ export const TreatmentsPage = () => {
           <PageContainer className="treatments-featured__grid">
             <Reveal>
               <div className="treatments-featured__media">
-                <TiltedCard
-                  imageSrc={imageByService[featured.slug]}
-                  altText={`${featured.title} at Bless Day Spa`}
-                  captionText="A closer look"
+                <ImageFrame
+                  variant="editorial"
+                  aspectRatio="portrait"
+                  src={imageByService[featured.slug]}
+                  alt={`${featured.title} at Bless Day Spa`}
                 />
               </div>
             </Reveal>
             <Reveal delay={120} className="treatments-featured__copy">
               <p className="eyebrow">Featured ritual</p>
-              <ScrollFloat id="featured-title" className="treatments-featured__title">{featured.title}</ScrollFloat>
+              <h2 id="featured-title" className="treatments-featured__title display-lg">{featured.title}</h2>
               <p className="body-lg">{featured.detail}</p>
               <p className="body-sm treatments-featured__note">{featured.note}</p>
               <Button to={`/treatments/${featured.slug}`} variant="secondary" arrow="up-right">View treatment</Button>
@@ -61,32 +57,16 @@ export const TreatmentsPage = () => {
         </Section>
       )}
 
-      <Section aria-labelledby="index-title">
+      <Section aria-label="Before your visit" className="treatments-closing">
         <PageContainer narrow>
-          <SectionHeading eyebrow="Every treatment" title="A closer look at each one." id="index-title" />
-        </PageContainer>
-        <PageContainer>
-          <div className="treatment-rows">
-            {services.map((service, index) => (
-              <TreatmentIndexRow
-                key={service.slug}
-                service={service}
-                image={imageByService[service.slug]}
-                demo={demoServiceSlugs.has(service.slug)}
-                index={index}
-                reversed={index % 2 === 1}
-              />
-            ))}
-          </div>
-
-          <aside className="information-note">
-            <p className="eyebrow">Before your visit</p>
+          <Reveal className="information-note">
+            <p className="h3">Before your visit</p>
             <p className="body-sm">
-              Prices are listed in the full menu above. For anything not listed there, message
+              Prices are listed in the menu above. For anything not listed there, message
               the spa to discuss what you need.
             </p>
             <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
-          </aside>
+          </Reveal>
         </PageContainer>
       </Section>
     </main>

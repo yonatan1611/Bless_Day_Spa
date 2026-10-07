@@ -20,7 +20,7 @@ export const AtmosphereGallery = () => {
     <Section aria-labelledby="atmosphere-title">
       <PageContainer>
         <Reveal>
-          <SectionHeading eyebrow="The setting" title="Quietly looked after." id="atmosphere-title">
+          <SectionHeading title="Quietly looked after." id="atmosphere-title">
             <p className="body-lg">Select an image for a closer look.</p>
           </SectionHeading>
         </Reveal>

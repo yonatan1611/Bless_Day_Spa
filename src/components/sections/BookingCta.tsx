@@ -7,7 +7,7 @@ import { business } from '../../content/business'
 const steps = [
   { number: '01', label: 'Choose your experience' },
   { number: '02', label: 'Tell us your preferred time' },
-  { number: '03', label: 'Send it — we confirm by message' },
+  { number: '03', label: 'Send it, we confirm by message' },
 ]
 
 // A preview of the booking flow's own steps (see the real stepper on
@@ -18,7 +18,6 @@ export const BookingCta = () => (
     <AmbientPaths className="booking-cta__paths" />
     <PageContainer narrow>
       <Reveal className="booking-cta__body">
-        <p className="eyebrow">Appointments</p>
         <h2 id="booking-cta-title" className="display-lg">Ready when you are.</h2>
         <p className="body-lg">Send {business.name} a message to ask about an available time and treatment.</p>
 
@@ -32,7 +31,7 @@ export const BookingCta = () => (
         </ol>
 
         <div className="booking-cta__actions">
-          <Button to="/book" variant="primary" arrow="down-right">Start your request</Button>
+          <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
           <Button href={business.messengerUrl} variant="secondary" arrow="up-right">Message on Facebook</Button>
           <Button href={`tel:${business.phone}`} variant="secondary">Call {business.phoneDisplay}</Button>
         </div>

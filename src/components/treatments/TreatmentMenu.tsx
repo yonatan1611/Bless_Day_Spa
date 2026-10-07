@@ -43,7 +43,7 @@ export const TreatmentMenu = () => {
     <Section id="menu" aria-labelledby="menu-title" className="treatment-menu">
       <PageContainer>
         <Reveal>
-          <SectionHeading eyebrow="The full menu" title="Every treatment, at a glance." id="menu-title">
+          <SectionHeading title="Every treatment, at a glance." id="menu-title">
             <p className="body-lg">
               Prices are shown as listed by Bless Day Spa. Please confirm current rates when you book.
             </p>
@@ -108,12 +108,14 @@ export const TreatmentMenu = () => {
                               aria-expanded={isOpen}
                             >
                               <span className="menu-list__name">{menuItem.name}</span>
+                              {menuItem.duration && <span className="menu-list__duration">{menuItem.duration}</span>}
                               {menuItem.price && <span className="menu-list__price">{menuItem.price}</span>}
                               <span className="menu-list__note-toggle" aria-hidden="true">{isOpen ? '−' : '+'}</span>
                             </button>
                           ) : (
                             <div className="menu-list__row">
                               <span className="menu-list__name">{menuItem.name}</span>
+                              {menuItem.duration && <span className="menu-list__duration">{menuItem.duration}</span>}
                               {menuItem.price && <span className="menu-list__price">{menuItem.price}</span>}
                             </div>
                           )}

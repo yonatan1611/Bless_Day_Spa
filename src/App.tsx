@@ -11,7 +11,6 @@ import { ContactPage } from './pages/ContactPage'
 import { GalleryPage } from './pages/GalleryPage'
 import { HomePage } from './pages/HomePage'
 import { NotFoundPage } from './pages/NotFoundPage'
-import { PackagesPage } from './pages/PackagesPage'
 import { ReviewsPage } from './pages/ReviewsPage'
 import { TreatmentDetailPage } from './pages/TreatmentDetailPage'
 import { TreatmentsPage } from './pages/TreatmentsPage'
@@ -30,7 +29,6 @@ export const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/treatments" element={<TreatmentsPage />} />
             <Route path="/treatments/:slug" element={<TreatmentDetailPage />} />
-            <Route path="/packages" element={<PackagesPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />

@@ -2,7 +2,6 @@ import { Hero } from '../components/sections/Hero'
 import { TrustStrip } from '../components/sections/TrustStrip'
 import { BrandStatement } from '../components/sections/BrandStatement'
 import { TreatmentExplorer } from '../components/sections/TreatmentExplorer'
-import { SignatureExperiences } from '../components/sections/SignatureExperiences'
 import { BlessExperience } from '../components/sections/BlessExperience'
 import { BookingCta } from '../components/sections/BookingCta'
 import { Testimonials } from '../components/sections/Testimonials'
@@ -20,7 +19,6 @@ export const HomePage = () => {
       <TrustStrip />
       <BrandStatement />
       <TreatmentExplorer />
-      <SignatureExperiences />
       <BlessExperience />
       <BookingCta />
       <Testimonials />

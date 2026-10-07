@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "helvetica",
+        "createdAt": "2026-10-04T13:51:34.136Z",
+        "reason": "Email HTML template (api/book.ts) can't use the web app's self-hosted fonts - email clients need a system-font fallback stack. Not a DESIGN.md violation, a different medium's constraint."
+      },
+      {
+        "rule": "layout-transition",
+        "value": "*",
+        "files": [
+          "src/styles/global.css"
+        ],
+        "createdAt": "2026-10-04T13:51:53.426Z",
+        "reason": "Remaining hits are two tiny interaction-triggered nudges (explorer/menu tab active-state indent, ~0.4rem, click-triggered not scroll) on small inline elements; the carousel-dot width transition in this same file was fixed to transform:scaleX. Fixing the other two needs a markup wrapper to move the nudge to transform - cost outweighs the negligible perf benefit at this element size/frequency."
+      }
+    ]
+  }
+}

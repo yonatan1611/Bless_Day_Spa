@@ -8,7 +8,6 @@ export const VisitSection = () => (
     <PageContainer>
       <Reveal className="visit-panel">
         <div className="visit-panel__intro">
-          <p className="eyebrow">Visit {business.name}</p>
           <h2 id="visit-title" className="display-lg">{business.areaDescription}.</h2>
         </div>
         <div className="visit-panel__detail">
@@ -18,7 +17,7 @@ export const VisitSection = () => (
             {business.city}
           </p>
           <Button href={business.mapUrl} variant="secondary" arrow="up-right">Open in Google Maps</Button>
-          <p className="visit-panel__hours"><span className="eyebrow">Listed hours</span>{business.hours.label}</p>
+          <p className="visit-panel__hours">{business.hours.label}</p>
           <p className="body-sm">{business.hours.note}</p>
         </div>
       </Reveal>

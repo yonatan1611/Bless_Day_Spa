@@ -28,7 +28,14 @@ tmp/
 output/
 .neon
 
+# Local QA screenshots/scripts (ad hoc visual verification, not shipped)
+.screens/
+.vite-dev.log
+
 # Raw uploaded business photos (unedited originals, some containing
 # identifiable people or promo text) — not served, kept locally as source
 # material for public/images crops. Not meant for the deployed bundle.
 source-photos/
+
+.vercel
+.env*

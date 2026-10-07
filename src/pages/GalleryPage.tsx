@@ -5,11 +5,8 @@ import { Button } from '../components/ui/Button'
 import { Lightbox } from '../components/ui/Lightbox'
 import { Masonry, type MasonryItem } from '../components/react-bits/Masonry'
 import { Stack } from '../components/react-bits/Stack'
-import { ScrollFloat } from '../components/react-bits/ScrollFloat'
-import { GradientText } from '../components/react-bits/GradientText'
-import { ClickSpark } from '../components/react-bits/ClickSpark'
 import { ChromaGrid, type ChromaItem } from '../components/react-bits/ChromaGrid'
-import { galleryImages, treatmentImages } from '../content/images'
+import { galleryImages, homepageImages, treatmentImages } from '../content/images'
 import { services } from '../content/services'
 import { business } from '../content/business'
 import { usePageTitle } from '../hooks/usePageTitle'
@@ -18,9 +15,7 @@ const roomImages: Record<string, string> = {
   massage: treatmentImages.massage,
   'moroccan-bath': treatmentImages.moroccanBath,
   'steam-sauna': treatmentImages.steamSauna,
-  'hair-salon': treatmentImages.hairSalon,
   facials: treatmentImages.facials,
-  'nail-care': treatmentImages.nailCare,
 }
 
 const rooms: ChromaItem[] = services.map((service) => ({
@@ -47,10 +42,18 @@ const shots = [
   { src: galleryImages.corridor, alt: 'A sunlit column between two treatment lounges at Bless Day Spa', caption: 'Between the lounges', aspect: 5 / 4, featured: false },
   { src: galleryImages.skincare, alt: 'Deep tissue massage at Bless Day Spa', caption: 'Deep tissue massage', aspect: 10 / 9, featured: true },
   { src: galleryImages.fabric, alt: 'A floor-mattress treatment room at Bless Day Spa', caption: 'A treatment room', aspect: 4 / 3, featured: true },
-  { src: galleryImages.salonCorner, alt: 'The chandelier and sofa nook in the hair salon at Bless Day Spa', caption: 'The hair salon', aspect: 5 / 8, featured: false },
+  { src: galleryImages.salonCorner, alt: 'A chandelier and sofa lounge nook at Bless Day Spa', caption: 'A lounge nook', aspect: 5 / 8, featured: false },
   { src: galleryImages.sandstone, alt: 'Sandstone-toned tile in the Moroccan bath room at Bless Day Spa', caption: 'The Moroccan bath room', aspect: 2 / 3, featured: false },
   { src: galleryImages.roseDetail, alt: 'Roses and rolled towels on a row of treatment beds at Bless Day Spa', caption: 'A quiet detail', aspect: 21 / 10, featured: false },
   { src: galleryImages.towel, alt: 'Hot stone massage at Bless Day Spa', caption: 'Hot stone massage', aspect: 3 / 4, featured: true },
+  { src: homepageImages.hero, alt: 'A sunlit treatment lounge at Bless Day Spa, with roses resting on the beds', caption: 'The treatment lounge', aspect: 2 / 3, featured: false },
+  { src: homepageImages.massage, alt: 'Massage at Bless Day Spa', caption: 'A massage treatment', aspect: 3 / 2, featured: false },
+  { src: homepageImages.moroccanBath, alt: 'Moroccan bath at Bless Day Spa', caption: 'The Moroccan bath treatment', aspect: 3 / 2, featured: false },
+  { src: homepageImages.steamSauna, alt: 'The steam room at Bless Day Spa', caption: 'The steam room', aspect: 3 / 2, featured: false },
+  { src: homepageImages.facials, alt: 'Facials at Bless Day Spa', caption: 'A facial treatment', aspect: 3 / 2, featured: false },
+  { src: homepageImages.galleryLarge, alt: 'A relaxation room at Bless Day Spa', caption: 'A relaxation room', aspect: 3 / 2, featured: false },
+  { src: homepageImages.galleryLeaf, alt: 'A floral detail at Bless Day Spa', caption: 'A floral detail', aspect: 1, featured: false },
+  { src: homepageImages.galleryWater, alt: 'Rose petals arranged on a treatment bed at Bless Day Spa', caption: 'A rose petal detail', aspect: 1, featured: false },
 ]
 
 // Three photos, for a quick drag-to-browse stack up top — before the full
@@ -78,10 +81,10 @@ export const GalleryPage = () => {
     <main id="main-content">
       <Section padding="top" className="page-intro">
         <PageContainer narrow>
-          <p className="eyebrow"><GradientText>Gallery</GradientText></p>
-          <ScrollFloat tag="h2" className="display-lg">A closer look at the atmosphere.</ScrollFloat>
+          <p className="eyebrow">Gallery</p>
+          <h1 className="display-lg">A closer look at the atmosphere.</h1>
           <p className="body-lg">
-            Real Bless Day Spa photography — textures, treatment rooms, and quiet details.
+            Real Bless Day Spa photography: textures, treatment rooms, and quiet details.
             Select any image for a closer look.
           </p>
         </PageContainer>
@@ -98,8 +101,7 @@ export const GalleryPage = () => {
             />
           </div>
           <div className="gallery-stack-section__copy">
-            <p className="eyebrow">Real moments</p>
-            <p className="body-lg">Drag a photo away to see the next one — three real corners of {business.name}.</p>
+            <p className="body-lg">Drag a photo away to see the next one, three real corners of {business.name}.</p>
           </div>
         </PageContainer>
       </Section>
@@ -117,18 +119,15 @@ export const GalleryPage = () => {
             <h2 id="gallery-rooms-title" className="display-md">See where each treatment happens.</h2>
           </Reveal>
           <Reveal delay={120}>
-            <ChromaGrid items={rooms} className="gallery-rooms" />
+            <ChromaGrid items={rooms} />
           </Reveal>
         </PageContainer>
       </Section>
 
       <Section className="section--inverse gallery-cta" aria-labelledby="gallery-cta-title">
         <PageContainer narrow>
-          <p className="eyebrow">Seen enough?</p>
           <h2 id="gallery-cta-title" className="display-lg">Come see it in person.</h2>
-          <ClickSpark>
-            <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
-          </ClickSpark>
+          <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
         </PageContainer>
       </Section>
 

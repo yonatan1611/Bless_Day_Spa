@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { ImageFrame } from '../ui/ImageFrame'
 import { Button } from '../ui/Button'
-import { SplitText } from '../react-bits/SplitText'
+import { BlurText } from '../react-bits/BlurText'
 import { RotatingText } from '../react-bits/RotatingText'
 import { business } from '../../content/business'
 import { homepageImages } from '../../content/images'
@@ -43,7 +43,10 @@ const useHeroMotion = () => {
     const start = performance.now()
     const render = (now: number) => {
       const rect = node.parentElement?.getBoundingClientRect()
-      const offsetY = rect ? rect.top * 0.15 : 0
+      // Clamped: once the hero scrolls fully out of view (or a layout
+      // measurement goes stale mid-resize), an unclamped offset can carry
+      // the image out past its own overflow:hidden clip.
+      const offsetY = rect ? Math.max(-120, Math.min(120, rect.top * 0.15)) : 0
 
       // ease-in-out triangle wave, alternating 0 -> 1 -> 0 over one period
       const t = ((now - start) % HERO_ZOOM_PERIOD_MS) / HERO_ZOOM_PERIOD_MS
@@ -67,8 +70,6 @@ export const Hero = () => {
 
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <p className="hero__spine" aria-hidden="true">Addis Ababa · Wollo Sefer</p>
-
       <motion.div
         className="hero__media"
         ref={mediaRef}
@@ -96,27 +97,21 @@ export const Hero = () => {
           {business.areaDescription} · {business.city}
         </motion.p>
         <h1 id="hero-title" className="hero__title">
-          <SplitText text="Make room" tag="span" className="hero__title-line" delay={22} />
+          <BlurText text="Make room" tag="span" className="hero__title-line" />
           <br />
           <motion.span className="hero__title-line" variants={heroItem}>
             for a <em>blessed</em> day.
           </motion.span>
         </h1>
         <motion.p className="body-lg hero__intro" variants={heroItem}>
-          {business.servesDescription}
-        </motion.p>
-        <motion.p className="hero__rotating" variants={heroItem}>
-          Today, make time for <RotatingText texts={services.map((s) => s.title)} className="hero__rotating-text" />
+          {business.servesDescription} Today, make time for{' '}
+          <RotatingText texts={services.map((s) => s.title)} className="hero__rotating-text" />.
         </motion.p>
         <motion.div className="hero__actions" variants={heroItem}>
           <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
           <Button to="/treatments" variant="secondary" arrow="down-right">Explore Treatments</Button>
         </motion.div>
       </motion.div>
-
-      <a href="#brand-statement-title" className="hero__scroll-cue" aria-label="Scroll to learn more">
-        <span className="hero__scroll-cue-line" aria-hidden="true" />
-      </a>
     </section>
   )
 }

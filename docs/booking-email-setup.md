@@ -48,3 +48,46 @@ doesn't run Vercel Functions. Running `npm run dev` alone is fine for
 everything else; the booking form's "Send request" button will just fail
 (falling back to its own error state) until the function is reachable,
 either via `vercel dev` or once deployed.
+
+**Known quirk:** in this CLI version, the `api/book.ts` Edge Function only
+sees env vars that are actually present in the shell process `vercel dev`
+is launched from — a `.env.local` file alone is not enough, even though it
+looks correct and even though `vercel link`/`vercel env pull` write to it.
+Register the two required vars on the Vercel project itself
+(`vercel env add RESEND_API_KEY development`,
+`vercel env add BOOKING_NOTIFY_EMAIL development`), `vercel env pull
+.env.local --yes`, then source that file into the shell *before* starting
+`vercel dev`:
+
+```bash
+set -a && source .env.local && set +a
+vercel dev
+```
+
+Without that `source` step, the function returns "Email is not configured
+on the server yet." even with correct values sitting in `.env.local`.
+
+Also note Resend's sandbox sender (`onboarding@resend.dev`, the default
+when `BOOKING_FROM_EMAIL` is unset) will only deliver to the email address
+your Resend account is signed up with — sending to any other
+`BOOKING_NOTIFY_EMAIL` fails with a 403 until a domain is verified in
+Resend and `BOOKING_FROM_EMAIL` is set to an address on that domain.
+
+## 4. Visitor confirmation email
+
+If a visitor fills in the optional email field on the "Your details" step,
+`api/book.ts` also sends them a short confirmation once the business
+notification succeeds. This is the same sandbox restriction as above, just
+hitting a different recipient: until a domain is verified in Resend, that
+confirmation can only actually be delivered when the visitor happens to
+enter the Resend account's own signup email — any other address fails with
+a 422 ("Invalid `to` field... use our testing email address"). The business
+notification is unaffected either way, since it always goes to the fixed
+`BOOKING_NOTIFY_EMAIL` inbox, not the visitor's address.
+
+This failure is caught and logged (`console.error`, visible in `vercel
+dev`'s terminal locally or the function's logs in the Vercel dashboard once
+deployed) but does **not** fail the visitor's request — they still see
+"Sent" either way, since the spa has already been notified by that point.
+Don't mistake "no confirmation email arrived" for a bug until a domain is
+verified; check the function logs for the Resend error first.

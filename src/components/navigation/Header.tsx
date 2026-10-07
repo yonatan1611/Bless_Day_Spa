@@ -3,23 +3,17 @@ import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { Menu, X } from 'lucide-react'
 import { Button } from '../ui/Button'
-import { PillNav } from '../react-bits/PillNav'
-import { ClickSpark } from '../react-bits/ClickSpark'
 
 const navigation = [
   { label: 'Treatments', to: '/treatments' },
-  { label: 'Packages', to: '/packages' },
   { label: 'About', to: '/about' },
   { label: 'Gallery', to: '/gallery' },
   { label: 'Contact', to: '/contact' },
 ]
 
-// Structurally different from the old full-width bar: three separate
-// floating glass clusters (brand mark, pill nav, actions) instead of one
-// continuous header, always the same translucent-ivory treatment rather
-// than a transparent-over-hero/solid-on-scroll state machine — legible over
-// both the dark hero photo and every light page background without needing
-// to know which one it's on.
+// Three separate floating glass clusters (brand mark, nav, actions) instead
+// of one continuous bar, always the same translucent-plaster treatment so
+// it reads over both the dark hero photo and every light page background.
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
   const toggleRef = useRef<HTMLButtonElement>(null)
@@ -53,19 +47,22 @@ export const Header = () => {
       </Link>
 
       <nav className="floating-header__nav" aria-label="Main navigation">
-        <PillNav
-          items={navigation}
-          activePath={location.pathname}
-          baseColor="#1A1A1A"
-          pillTextColor="#1A1A1A"
-          hoverTextColor="#FAF7F2"
-        />
+        <ul className="site-nav">
+          {navigation.map((item) => {
+            const isActive = location.pathname === item.to || location.pathname.startsWith(`${item.to}/`)
+            return (
+              <li key={item.to}>
+                <Link to={item.to} className={`site-nav__link ${isActive ? 'is-active' : ''}`}>
+                  {item.label}
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
       </nav>
 
       <div className="floating-header__actions">
-        <ClickSpark>
-          <Button to="/book" variant="primary" className="floating-header__cta">Book Appointment</Button>
-        </ClickSpark>
+        <Button to="/book" variant="primary" className="floating-header__cta">Book Appointment</Button>
         <button
           ref={toggleRef}
           type="button"

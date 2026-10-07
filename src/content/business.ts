@@ -18,7 +18,7 @@ export const business = {
   // first-party addendum in docs/research.md.
   yearsExperience: '20+',
   hours: {
-    label: 'Daily, 9:30 AM–8:00 PM',
+    label: 'Daily, 9:30 AM-8:00 PM',
     note: 'Hours shown in public business listings. Please confirm availability before visiting.',
   },
   mapUrl: 'https://www.google.com/maps/search/?api=1&query=Bless%20Day%20Spa%2C%20Addis%20Ababa',

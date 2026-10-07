@@ -1,6 +1,7 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react'
 import { Link, type LinkProps } from 'react-router-dom'
 import { Magnet } from '../react-bits/Magnet'
+import { ClickSpark } from '../react-bits/ClickSpark'
 
 type ButtonVariant = 'primary' | 'secondary' | 'text'
 
@@ -41,7 +42,12 @@ export const Button = ({ variant = 'primary', className = '', arrow = 'none', ch
     element = <button type="button" className={classes} {...rest}>{children}{glyph}</button>
   }
 
-  // Magnetic pull (React Bits' Magnet, see react-bits/Magnet.tsx) reserved
-  // for primary CTAs, so it stays a signature moment rather than a default.
-  return variant === 'primary' ? <Magnet className="button-magnet">{element}</Magnet> : element
+  // Magnetic pull (Magnet) and click feedback (ClickSpark) reserved for
+  // primary CTAs, so both stay a signature moment rather than a default
+  // applied everywhere.
+  return variant === 'primary' ? (
+    <ClickSpark>
+      <Magnet className="button-magnet">{element}</Magnet>
+    </ClickSpark>
+  ) : element
 }

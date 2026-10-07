@@ -2,30 +2,24 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { ChevronDown } from 'lucide-react'
 import { Button } from '../ui/Button'
-import { ClickSpark } from '../react-bits/ClickSpark'
-import { GradientText } from '../react-bits/GradientText'
 import { Stepper } from '../react-bits/Stepper'
-import { SpotlightCard } from '../react-bits/SpotlightCard'
 import { menuCategories, type MenuCategory } from '../../content/menu'
-import { packages } from '../../content/packages'
 import { business } from '../../content/business'
 
-type Choice = { kind: 'treatment' | 'package'; key: string; label: string }
+type Choice = { kind: 'treatment'; key: string; label: string }
 type Group = { key: string; title: string; image: string; choices: Choice[] }
 type SendState = 'idle' | 'sending' | 'sent' | 'error'
 
 // A service slug (from TreatmentExplorer/TreatmentIndexRow/TreatmentDetailPage
-// "Book appointment" links, e.g. /book?service=hair-salon) maps to the menu
-// category it's priced under — see the identical mapping in
-// src/components/sections/TreatmentExplorer.tsx. Only hair-salon's slug
-// actually differs from its menu category (hair-and-beauty).
+// "Book appointment" links) maps to the menu category it's priced under —
+// see the identical mapping in src/components/sections/TreatmentExplorer.tsx.
+// Every service slug matches its menu category slug now that hair salon
+// (discontinued) and nail care (no longer on the menu) are gone.
 const menuSlugByServiceSlug: Record<string, string> = {
   massage: 'massage',
   'moroccan-bath': 'moroccan-bath',
   'steam-sauna': 'steam-sauna',
-  'hair-salon': 'hair-and-beauty',
   facials: 'facials',
-  'nail-care': 'nail-care',
 }
 
 // One choice per specific menu item (e.g. "Swedish massage"), plus — for any
@@ -38,23 +32,16 @@ const choicesForCategory = (category: MenuCategory): Choice[] => [
   ...category.items.map((item) => ({
     kind: 'treatment' as const,
     key: `${category.slug}::${item.name}`,
-    label: item.price ? `${item.name} — ${item.price}` : item.name,
+    label: item.price ? `${item.name} (${item.price})` : item.name,
   })),
 ]
 
-const treatmentGroups: Group[] = menuCategories.map((category) => ({
+const allGroups: Group[] = menuCategories.map((category) => ({
   key: category.slug,
   title: category.title,
   image: category.image,
   choices: choicesForCategory(category),
 }))
-const packageChoices: Choice[] = packages.map((pkg) => ({ kind: 'package' as const, key: pkg.slug, label: pkg.name }))
-const allGroups: Group[] = [
-  ...treatmentGroups,
-  ...(packageChoices.length > 0
-    ? [{ key: 'packages', title: 'Packages', image: packages[0]?.image ?? '', choices: packageChoices }]
-    : []),
-]
 
 const steps = ['Experience', 'Preferred time', 'Your details', 'Review & send']
 
@@ -64,9 +51,9 @@ const steps = ['Experience', 'Preferred time', 'Your details', 'Review & send']
 // actually sends the request: a POST to api/book.ts emails it to the spa.
 // Messenger/phone stay as a visible fallback in case that email fails or
 // isn't configured yet.
-type BookingStepperProps = { initialServiceSlug?: string; initialPackageSlug?: string }
+type BookingStepperProps = { initialServiceSlug?: string }
 
-export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: BookingStepperProps) => {
+export const BookingStepper = ({ initialServiceSlug }: BookingStepperProps) => {
   const [step, setStep] = useState(0)
   const [direction, setDirection] = useState(1)
   const [selections, setSelections] = useState<Choice[]>(() => {
@@ -77,10 +64,6 @@ export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: Booki
       const first = category && choicesForCategory(category)[0]
       if (first) initial.push(first)
     }
-    if (initialPackageSlug) {
-      const pkg = packages.find((item) => item.slug === initialPackageSlug)
-      if (pkg) initial.push({ kind: 'package', key: pkg.slug, label: pkg.name })
-    }
     return initial
   })
   // Which group's item list is expanded — browsing one category at a time
@@ -88,7 +71,6 @@ export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: Booki
   // whichever group a pre-selection (from a "Book appointment" link
   // elsewhere) landed in, so that choice is visible right away.
   const [openGroup, setOpenGroup] = useState<string | null>(() => {
-    if (initialPackageSlug && packages.some((item) => item.slug === initialPackageSlug)) return 'packages'
     if (initialServiceSlug) {
       const menuSlug = menuSlugByServiceSlug[initialServiceSlug] ?? initialServiceSlug
       if (menuCategories.some((item) => item.slug === menuSlug)) return menuSlug
@@ -98,7 +80,8 @@ export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: Booki
   const [preferredDate, setPreferredDate] = useState('')
   const [preferredTime, setPreferredTime] = useState('')
   const [name, setName] = useState('')
-  const [contact, setContact] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
   const [sendState, setSendState] = useState<SendState>('idle')
 
   const go = (next: number) => {
@@ -115,7 +98,7 @@ export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: Booki
   }
 
   const canAdvance = [selections.length > 0, true, true, true][step]
-  const canSend = Boolean(name.trim()) && Boolean(contact.trim())
+  const canSend = Boolean(name.trim()) && Boolean(phone.trim())
 
   const sendRequest = async () => {
     setSendState('sending')
@@ -128,7 +111,8 @@ export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: Booki
           preferredDate,
           preferredTime,
           name,
-          contact,
+          phone,
+          email: email.trim() || undefined,
         }),
       })
       if (!response.ok) throw new Error('request failed')
@@ -156,7 +140,7 @@ export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: Booki
             {step === 0 && (
               <div className="booking-stepper__choice-groups">
                 <p className="body-sm booking-stepper__hint">
-                  Tap a category to browse its treatments — choose as many as you'd like.
+                  Tap a category to browse its treatments, choose as many as you'd like.
                 </p>
 
                 {selections.length > 0 && (
@@ -182,7 +166,7 @@ export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: Booki
                       selections.some((item) => item.key === option.key),
                     ).length
                     return (
-                      <SpotlightCard className="booking-stepper__accordion-item" key={group.key} spotlightColor="rgba(169, 124, 99, 0.14)">
+                      <div className="booking-stepper__accordion-item" key={group.key}>
                         <button
                           type="button"
                           className="booking-stepper__accordion-trigger"
@@ -216,21 +200,20 @@ export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: Booki
                               <fieldset className="booking-stepper__choices">
                                 <legend className="sr-only">{group.title}</legend>
                                 {group.choices.map((option) => (
-                                  <ClickSpark key={option.key}>
-                                    <button
-                                      type="button"
-                                      className={`booking-stepper__choice ${selections.some((item) => item.key === option.key) ? 'is-selected' : ''}`}
-                                      onClick={() => toggleChoice(option)}
-                                    >
-                                      {option.label}
-                                    </button>
-                                  </ClickSpark>
+                                  <button
+                                    key={option.key}
+                                    type="button"
+                                    className={`booking-stepper__choice ${selections.some((item) => item.key === option.key) ? 'is-selected' : ''}`}
+                                    onClick={() => toggleChoice(option)}
+                                  >
+                                    {option.label}
+                                  </button>
                                 ))}
                               </fieldset>
                             </motion.div>
                           )}
                         </AnimatePresence>
-                      </SpotlightCard>
+                      </div>
                     )
                   })}
                 </div>
@@ -240,7 +223,7 @@ export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: Booki
             {step === 1 && (
               <div className="booking-stepper__fields">
                 <p className="body-sm booking-stepper__hint">
-                  A preference, not a live booking — {business.name} confirms the actual time by message.
+                  A preference, not a live booking. {business.name} confirms the actual time by message.
                 </p>
                 <label className="booking-stepper__field">
                   <span>Preferred date</span>
@@ -260,25 +243,30 @@ export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: Booki
                   <input type="text" value={name} onChange={(event) => setName(event.target.value)} placeholder="Full name" />
                 </label>
                 <label className="booking-stepper__field">
-                  <span>Best way to reach you</span>
-                  <input type="text" value={contact} onChange={(event) => setContact(event.target.value)} placeholder="Phone or Facebook name" />
+                  <span>Phone number</span>
+                  <input type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="e.g. 0912 345 678" />
+                </label>
+                <label className="booking-stepper__field">
+                  <span>Email (optional)</span>
+                  <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="For a confirmation email" />
                 </label>
               </div>
             )}
 
             {step === 3 && (
               <div className="booking-stepper__summary">
-                <p className="eyebrow"><GradientText>Your request</GradientText></p>
+                <p className="eyebrow">Your request</p>
                 <ul>
                   <li><strong>Experience:</strong> {selections.length > 0 ? selections.map((item) => item.label).join(', ') : 'Not selected'}</li>
                   <li><strong>Preferred time:</strong> {preferredDate || preferredTime ? `${preferredDate} ${preferredTime}`.trim() : 'Not specified'}</li>
                   <li><strong>Name:</strong> {name || 'Not specified'}</li>
-                  <li><strong>Contact:</strong> {contact || 'Not specified'}</li>
+                  <li><strong>Phone:</strong> {phone || 'Not specified'}</li>
+                  <li><strong>Email:</strong> {email || 'Not provided'}</li>
                 </ul>
 
                 {sendState === 'sent' ? (
                   <p className="body booking-stepper__sent">
-                    Sent — {business.name} will confirm by message or call soon.
+                    Sent. {business.name} will confirm by message or call soon.
                   </p>
                 ) : (
                   <>
@@ -289,16 +277,14 @@ export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: Booki
                     </p>
                     <div className="booking-stepper__send-actions">
                       {sendState !== 'error' && (
-                        <ClickSpark>
-                          <Button
-                            variant="primary"
-                            arrow="down-right"
-                            onClick={sendRequest}
-                            disabled={!canSend || sendState === 'sending'}
-                          >
-                            {sendState === 'sending' ? 'Sending…' : 'Send request'}
-                          </Button>
-                        </ClickSpark>
+                        <Button
+                          variant="primary"
+                          arrow="down-right"
+                          onClick={sendRequest}
+                          disabled={!canSend || sendState === 'sending'}
+                        >
+                          {sendState === 'sending' ? 'Sending…' : 'Send request'}
+                        </Button>
                       )}
                       <Button href={business.messengerUrl} variant="secondary" arrow="up-right">Message on Facebook</Button>
                       <Button href={`tel:${business.phone}`} variant="secondary">Call {business.phoneDisplay}</Button>
@@ -316,11 +302,9 @@ export const BookingStepper = ({ initialServiceSlug, initialPackageSlug }: Booki
           Back
         </Button>
         {step < steps.length - 1 && (
-          <ClickSpark>
-            <Button variant="primary" onClick={() => go(step + 1)} disabled={!canAdvance} arrow="down-right">
-              Continue
-            </Button>
-          </ClickSpark>
+          <Button variant="primary" onClick={() => go(step + 1)} disabled={!canAdvance} arrow="down-right">
+            Continue
+          </Button>
         )}
       </div>
     </div>

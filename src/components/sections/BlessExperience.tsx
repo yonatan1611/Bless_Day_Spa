@@ -46,7 +46,7 @@ const YearsLine = () => {
         <span ref={ref} aria-hidden="true">{value}</span>+
         <span className="sr-only"> {business.yearsExperience}</span> years of experience
       </p>
-      <p className="body">Full-service spa care, from massage to hair styling, in one place.</p>
+      <p className="body">Massage, Moroccan bath, steam, sauna, and facial care, in one place.</p>
     </BlessExperienceLine>
   )
 }
@@ -65,13 +65,13 @@ export const BlessExperience = () => (
 
       <div className="bless-experience__copy">
         <Reveal>
-          <SectionHeading eyebrow="The Bless experience" title="What guests notice." id="bless-experience-title" />
+          <SectionHeading title="What guests notice." id="bless-experience-title" />
         </Reveal>
 
         <ul className="bless-experience__list">
           <BlessExperienceLine number="01">
-            <p className="display-md">One place, six rituals</p>
-            <p className="body">Massage, Moroccan bath, steam &amp; sauna, hair salon, facials, and nail care — together in one visit.</p>
+            <p className="display-md">One place, four rituals</p>
+            <p className="body">Massage, Moroccan bath, steam &amp; sauna, and facials, together in one visit.</p>
           </BlessExperienceLine>
 
           <YearsLine />

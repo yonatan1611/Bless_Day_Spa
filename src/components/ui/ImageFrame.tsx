@@ -58,7 +58,7 @@ export const ImageFrame = ({
         <figcaption className="body-sm">
           {caption}
           {caption && demo ? ' · ' : ''}
-          {demo && 'Demo image — replace before launch'}
+          {demo && 'Demo image, replace before launch'}
         </figcaption>
       )}
     </figure>

@@ -12,13 +12,12 @@ export const TreatmentsHero = () => (
   <section className="treatments-hero" aria-labelledby="treatments-hero-title">
     <PageContainer className="treatments-hero__row">
       <div className="treatments-hero__copy">
-        <p className="eyebrow">The treatment catalogue</p>
         <h1 id="treatments-hero-title" className="treatments-hero__title">
           <BlurText text="Time, set aside" tag="span" className="treatments-hero__blur" /> <em>with care</em>.
         </h1>
         <p className="body-lg">
-          Six rituals — massage, Moroccan bath, steam &amp; sauna, hair salon, facials, and nail
-          care — each browsable below, with full pricing in the menu.
+          Four rituals: massage, Moroccan bath, steam &amp; sauna, and facials, each browsable
+          below, with full pricing in the menu.
         </p>
         <p className="body treatments-hero__note">
           {business.servesDescription} {business.yearsExperience} years in {business.areaDescription}.

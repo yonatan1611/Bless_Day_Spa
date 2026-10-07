@@ -16,11 +16,11 @@ const DragCard = ({ children, onSendToBack, disableDrag }: { children: ReactNode
     else { x.set(0); y.set(0) }
   }
 
-  if (disableDrag) return <div className="stack__card-rotate">{children}</div>
+  if (disableDrag) return <div className="photo-stack__card-rotate">{children}</div>
 
   return (
     <motion.div
-      className="stack__card-rotate"
+      className="photo-stack__card-rotate"
       style={{ x, y, rotateX, rotateY }}
       drag
       dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}
@@ -54,11 +54,11 @@ export const Stack = ({ items, className = '' }: StackProps) => {
   }
 
   return (
-    <div className={`stack ${className}`.trim()}>
+    <div className={`photo-stack ${className}`.trim()}>
       {stack.map((card, index) => (
         <DragCard key={card.id} onSendToBack={() => sendToBack(card.id)} disableDrag={isTouch}>
           <motion.div
-            className="stack__card"
+            className="photo-stack__card"
             onClick={() => isTouch && sendToBack(card.id)}
             animate={{ rotateZ: (stack.length - index - 1) * 3, scale: 1 + index * 0.05 - stack.length * 0.05 }}
             initial={false}

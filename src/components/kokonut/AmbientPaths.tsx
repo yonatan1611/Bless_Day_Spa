@@ -4,7 +4,7 @@ import { motion } from 'motion/react'
 // Adapted from Kokonut UI's background-paths (kokonutui.com) — soft curved
 // lines drifting behind a section. Pared down from the original's 37 paths
 // in a vivid purple/pink/blue gradient (built for a dark SaaS hero) to ~10
-// paths in the site's own clay/sand palette, and gated behind
+// paths in the site's own rose/eucalyptus palette, and gated behind
 // prefers-reduced-motion, which the original doesn't check.
 type Point = { x: number; y: number }
 
@@ -49,8 +49,8 @@ export const AmbientPaths = ({ className = '' }: { className?: string }) => {
       <svg viewBox="-2400 -400 4800 800" preserveAspectRatio="xMidYMid slice" fill="none">
         <defs>
           <linearGradient id="ambient-paths-gradient" x1="0%" x2="100%" y1="0%" y2="0%">
-            <stop offset="0%" stopColor="var(--color-clay)" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="var(--color-sage)" stopOpacity="0.35" />
+            <stop offset="0%" stopColor="var(--color-rose)" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="var(--color-eucalyptus)" stopOpacity="0.35" />
           </linearGradient>
         </defs>
         {paths.map((path) => (
