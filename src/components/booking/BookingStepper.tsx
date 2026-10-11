@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { ChevronDown } from 'lucide-react'
 import { Button } from '../ui/Button'
@@ -60,6 +60,8 @@ export const BookingStepper = ({ initialServiceSlug }: BookingStepperProps) => {
     [menuCategories],
   )
 
+  const rootRef = useRef<HTMLDivElement>(null)
+  const isFirstRender = useRef(true)
   const [step, setStep] = useState(0)
   const [direction, setDirection] = useState(1)
   const [selections, setSelections] = useState<Choice[]>(() => {
@@ -95,6 +97,21 @@ export const BookingStepper = ({ initialServiceSlug }: BookingStepperProps) => {
     setStep(Math.max(0, Math.min(steps.length - 1, next)))
   }
 
+  // The "Experience" step can grow very tall (an open accordion lists up to
+  // ~10 treatments), while later steps are short. Advancing past it shrinks
+  // the page without moving the browser's scroll offset, which the browser
+  // then clamps to the new, shorter max — dropping the visitor somewhere
+  // around the footer instead of showing the next step. Scroll the stepper
+  // back into view on every step change (skipping the initial mount, so the
+  // page doesn't jump on load) to keep the next step actually visible.
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+    rootRef.current?.scrollIntoView({ behavior: 'instant' as ScrollBehavior, block: 'start' })
+  }, [step])
+
   const toggleChoice = (option: Choice) => {
     setSelections((current) =>
       current.some((item) => item.key === option.key)
@@ -129,7 +146,7 @@ export const BookingStepper = ({ initialServiceSlug }: BookingStepperProps) => {
   }
 
   return (
-    <div className="booking-stepper">
+    <div className="booking-stepper" id="booking-stepper" ref={rootRef}>
       <Stepper steps={steps} currentStep={step} />
 
       <div className="booking-stepper__stage">

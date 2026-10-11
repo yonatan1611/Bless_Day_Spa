@@ -334,9 +334,19 @@ body.nav-open .mobile-book-bar { transform: translateY(100%); }
 .brand-statement__media {
   position: absolute;
   inset: 0;
-  background-size: cover;
+  /* The sign photo is a wide banner crop (~2:1). On narrow/tall mobile
+     viewports a `cover` fit has to zoom in drastically to fill the box,
+     landing on a random close-up instead of the sign — contain it there
+     so the whole photo stays visible, letterboxed into the section's own
+     dark background, and only switch to a full-bleed cover once the
+     section is wide enough for that crop to make sense. */
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
   opacity: 0.4;
+}
+@media (min-width: 768px) {
+  .brand-statement__media { background-size: cover; }
 }
 .brand-statement::before {
   content: '';
