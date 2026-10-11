@@ -1,4 +1,4 @@
-import { useId, useRef, useState, type KeyboardEvent } from 'react'
+import { useId, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { PageContainer, Section } from '../layout/Primitives'
 import { SectionHeading } from '../layout/SectionHeading'
@@ -7,7 +7,7 @@ import { Reveal } from '../ui/Reveal'
 import { ImageFrame } from '../ui/ImageFrame'
 import { services } from '../../content/services'
 import { homepageImages, demoServiceSlugs } from '../../content/images'
-import { menuCategories } from '../../content/menu'
+import { useMenu } from '../../hooks/useMenu'
 import { onSpotlightPointerMove } from '../../lib/spotlight'
 
 const imageByService: Record<string, string> = {
@@ -17,9 +17,9 @@ const imageByService: Record<string, string> = {
   facials: homepageImages.facials,
 }
 
-// The explorer's broad categories map onto the real menu categories in
-// content/menu.ts (sourced directly from the owners) so we can surface an
-// honest "from" price here — never a fabricated one.
+// The explorer's broad categories map onto the real menu categories (edited
+// by the business owners at /admin, see src/hooks/useMenu.ts) so we can
+// surface an honest "from" price here — never a fabricated one.
 const menuSlugByService: Record<string, string> = {
   massage: 'massage',
   'moroccan-bath': 'moroccan-bath',
@@ -27,18 +27,23 @@ const menuSlugByService: Record<string, string> = {
   facials: 'facials',
 }
 
-const startingPriceByService: Record<string, string | undefined> = Object.fromEntries(
-  Object.entries(menuSlugByService).map(([serviceSlug, menuSlug]) => {
-    const category = menuCategories.find((c) => c.slug === menuSlug)
-    const priced = category?.items.find((item) => item.price)
-    return [serviceSlug, priced?.price]
-  }),
-)
-
 export const TreatmentExplorer = () => {
+  const { categories: menuCategories } = useMenu()
   const [active, setActive] = useState(0)
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
   const baseId = useId()
+
+  const startingPriceByService = useMemo(
+    () =>
+      Object.fromEntries(
+        Object.entries(menuSlugByService).map(([serviceSlug, menuSlug]) => {
+          const category = menuCategories.find((c) => c.slug === menuSlug)
+          const priced = category?.items.find((item) => item.price)
+          return [serviceSlug, priced?.price]
+        }),
+      ) as Record<string, string | undefined>,
+    [menuCategories],
+  )
 
   const focusTab = (index: number) => {
     const next = (index + services.length) % services.length

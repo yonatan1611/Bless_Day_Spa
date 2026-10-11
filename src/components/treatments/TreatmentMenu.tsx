@@ -3,14 +3,16 @@ import { PageContainer, Section } from '../layout/Primitives'
 import { SectionHeading } from '../layout/SectionHeading'
 import { ImageFrame } from '../ui/ImageFrame'
 import { Reveal } from '../ui/Reveal'
-import { menuCategories } from '../../content/menu'
+import { useMenu } from '../../hooks/useMenu'
 
-// The full price list, sourced from Bless Day Spa's own treatment flyers —
-// see the sourcing note in content/menu.ts. An interactive tab explorer
-// (mirroring TreatmentExplorer's pattern) rather than a long static list, so
-// visitors can jump straight to the category they care about. Items with a
-// note (currently just wood therapy) expand in place on click.
+// The full price list — editable by the business owners at /admin, backed
+// by the database (see api/menu.ts); src/content/menu.ts is the bundled
+// fallback. An interactive tab explorer (mirroring TreatmentExplorer's
+// pattern) rather than a long static list, so visitors can jump straight to
+// the category they care about. Items with a note (currently just wood
+// therapy) expand in place on click.
 export const TreatmentMenu = () => {
+  const { categories: menuCategories } = useMenu()
   const [active, setActive] = useState(0)
   const [openNote, setOpenNote] = useState<string | null>(null)
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])

@@ -121,3 +121,41 @@ model Review {
   @@index([isPublished, sortOrder])
   @@map("reviews")
 }
+
+// Menu categories + items backing the /admin page (edit prices, add
+// services with a photo) and the public GET /api/menu endpoint. Separate
+// from the Service/Package models above, which are scaffolding for a future
+// appointments system and aren't wired to anything yet.
+model MenuCategory {
+  id        String     @id @default(cuid())
+  slug      String     @unique
+  title     String
+  tagline   String
+  imageUrl  String     @map("image_url")
+  altText   String     @map("alt_text")
+  sortOrder Int        @default(0) @map("sort_order")
+  isActive  Boolean    @default(true) @map("is_active")
+  items     MenuItem[]
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+
+  @@index([isActive, sortOrder])
+  @@map("menu_categories")
+}
+
+model MenuItem {
+  id         String       @id @default(cuid())
+  categoryId String       @map("category_id")
+  category   MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  name       String
+  priceEtb   Int?         @map("price_etb")
+  duration   String?
+  note       String?
+  sortOrder  Int          @default(0) @map("sort_order")
+  isActive   Boolean      @default(true) @map("is_active")
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @updatedAt @map("updated_at")
+
+  @@index([categoryId, sortOrder])
+  @@map("menu_items")
+}

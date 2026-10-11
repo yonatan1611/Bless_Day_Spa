@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { ChevronDown } from 'lucide-react'
 import { Button } from '../ui/Button'
 import { Stepper } from '../react-bits/Stepper'
-import { menuCategories, type MenuCategory } from '../../content/menu'
+import { type MenuCategory } from '../../content/menu'
+import { useMenu } from '../../hooks/useMenu'
 import { business } from '../../content/business'
 
 type Choice = { kind: 'treatment'; key: string; label: string }
@@ -36,13 +37,6 @@ const choicesForCategory = (category: MenuCategory): Choice[] => [
   })),
 ]
 
-const allGroups: Group[] = menuCategories.map((category) => ({
-  key: category.slug,
-  title: category.title,
-  image: category.image,
-  choices: choicesForCategory(category),
-}))
-
 const steps = ['Experience', 'Preferred time', 'Your details', 'Review & send']
 
 // A genuine multi-step interface. There's no live availability to confirm
@@ -54,6 +48,18 @@ const steps = ['Experience', 'Preferred time', 'Your details', 'Review & send']
 type BookingStepperProps = { initialServiceSlug?: string }
 
 export const BookingStepper = ({ initialServiceSlug }: BookingStepperProps) => {
+  const { categories: menuCategories } = useMenu()
+  const allGroups: Group[] = useMemo(
+    () =>
+      menuCategories.map((category) => ({
+        key: category.slug,
+        title: category.title,
+        image: category.image,
+        choices: choicesForCategory(category),
+      })),
+    [menuCategories],
+  )
+
   const [step, setStep] = useState(0)
   const [direction, setDirection] = useState(1)
   const [selections, setSelections] = useState<Choice[]>(() => {
