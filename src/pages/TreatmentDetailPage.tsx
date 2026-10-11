@@ -53,7 +53,10 @@ export const TreatmentDetailPage = () => {
 
               <p className="detail-hero__price body-sm">Duration and price are confirmed directly with the spa.</p>
 
-              <Button to={`/book?service=${service.slug}`} variant="primary" arrow="down-right">Book Appointment</Button>
+              <div className="detail-hero__actions">
+                <Button to={`/book?service=${service.slug}`} variant="primary" arrow="down-right">Book Appointment</Button>
+                <Button to="/treatments#menu" variant="text" arrow="down-right">See the full menu</Button>
+              </div>
             </div>
           </div>
         </PageContainer>

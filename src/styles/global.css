@@ -1589,6 +1589,7 @@ body.lightbox-open { overflow: hidden; }
 .detail-hero__media .image-frame,
 .detail-hero__media .image-frame__container { height: 100%; }
 .detail-hero__copy > * + * { margin-top: var(--space-md); }
+.detail-hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-md); }
 .detail-hero__price {
   border-top: 1px solid var(--border-subtle);
   border-bottom: 1px solid var(--border-subtle);

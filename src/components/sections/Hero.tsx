@@ -81,7 +81,7 @@ export const Hero = () => {
           variant="hero"
           src={homepageImages.hero}
           priority
-          alt="A sunlit treatment lounge at Bless Day Spa, with roses resting on the beds"
+          alt="A warmly lit treatment room at Bless Day Spa"
           className="hero__image"
           objectPosition="center 55%"
         />

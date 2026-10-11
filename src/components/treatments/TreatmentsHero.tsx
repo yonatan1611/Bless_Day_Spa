@@ -31,7 +31,7 @@ export const TreatmentsHero = () => (
           aspectRatio="portrait"
           src={treatmentImages.landingHero}
           priority
-          alt="A treatment room at Bless Day Spa, with three loungers and warm curtain light"
+          alt="A twin-bed treatment room at Bless Day Spa, with a stained-glass window"
         />
       </div>
     </PageContainer>
