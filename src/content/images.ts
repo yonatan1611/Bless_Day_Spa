@@ -19,6 +19,14 @@ export const homepageImages = {
   // Used as the darkened backdrop behind the Brand Statement section. Left
   // as-is during the October 2026 photo refresh at the owner's request.
   brandSign: '/images/homepage/brand-sign.jpg',
+  // A portrait (2:3) embossed gold logo graphic, supplied directly by the
+  // business (source-photos/business-photos/Bless Day Spa Embossed Gold
+  // Logo.png), swapped in for mobile only. The desktop banner above (~2.04:1)
+  // suits that section's wide-and-short box, but on mobile the section is
+  // narrow-and-tall, so `cover`-ing it with the wide banner had to zoom in so
+  // far it cropped almost all of the sign away. This portrait graphic fills
+  // the narrow-and-tall mobile box edge-to-edge with `cover` instead.
+  brandSignMobile: '/images/homepage/brand-sign-mobile.jpg',
   // massage/moroccanBath/steamSauna are cropped portrait (~4:5), not
   // landscape: every component that displays them (TreatmentExplorer's
   // panel, BlessExperience, TreatmentMenu) sizes its image box as a tall

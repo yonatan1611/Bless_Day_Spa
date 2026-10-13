@@ -10,7 +10,10 @@ export const BrandStatement = () => (
   <Section aria-labelledby="brand-statement-title" className="brand-statement section--inverse">
     <div
       className="brand-statement__media"
-      style={{ backgroundImage: `url(${homepageImages.brandSign})` }}
+      style={{
+        '--brand-statement-bg-desktop': `url(${homepageImages.brandSign})`,
+        '--brand-statement-bg-mobile': `url(${homepageImages.brandSignMobile})`,
+      } as React.CSSProperties}
       aria-hidden="true"
     />
     <PageContainer narrow className="brand-statement__container">

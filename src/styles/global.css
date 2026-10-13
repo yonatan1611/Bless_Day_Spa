@@ -334,16 +334,21 @@ body.nav-open .mobile-book-bar { transform: translateY(100%); }
 .brand-statement__media {
   position: absolute;
   inset: 0;
-  /* The sign photo is a wide banner crop (~2:1). On narrow/tall mobile
-     viewports a `cover` fit has to zoom in drastically to fill the box,
-     landing on a random close-up instead of the sign — contain it there
-     so the whole photo stays visible, letterboxed into the section's own
-     dark background, and only switch to a full-bleed cover once the
-     section is wide enough for that crop to make sense. */
-  background-size: contain;
-  background-repeat: no-repeat;
+  /* The desktop sign crop is a wide banner (~2:1) that suits that section's
+     wide-and-short box. On mobile the section is narrow-and-tall instead
+     (driven by the wrapped heading text), so `cover`-ing it with that same
+     wide crop forced a drastic zoom that cropped almost all of the sign
+     away. A tighter, closer-to-square crop of just the logo mark (set as
+     --brand-statement-bg-mobile in BrandStatement.tsx) still fills the box
+     edge-to-edge with `cover`, just with the full mark legible instead of
+     a random close-up. */
+  background-image: var(--brand-statement-bg-mobile);
+  background-size: cover;
   background-position: center;
   opacity: 0.4;
+}
+@media (min-width: 768px) {
+  .brand-statement__media { background-image: var(--brand-statement-bg-desktop); }
 }
 @media (min-width: 768px) {
   .brand-statement__media { background-size: cover; }
