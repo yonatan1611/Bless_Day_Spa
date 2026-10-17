@@ -5,8 +5,8 @@
 // to that same static content on any DB error — before the database is
 // provisioned, or if Neon has an outage — so the public site never breaks.
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { prisma } from './_lib/prisma'
-import { menuCategories as staticMenuCategories } from '../src/content/menu'
+import { prisma } from './_lib/prisma.js'
+import { menuCategories as staticMenuCategories } from '../src/content/menu.js'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })

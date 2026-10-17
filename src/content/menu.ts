@@ -1,4 +1,4 @@
-import { homepageImages, menuImages } from './images'
+import { homepageImages, menuImages } from './images.js'
 
 export type MenuItem = {
   name: string

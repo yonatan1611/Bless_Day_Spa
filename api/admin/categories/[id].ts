@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { Prisma } from '@prisma/client'
-import { prisma } from '../../_lib/prisma'
-import { assertSameOrigin, requireAdmin } from '../../_lib/auth'
+import { prisma } from '../../_lib/prisma.js'
+import { assertSameOrigin, requireAdmin } from '../../_lib/auth.js'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const session = await requireAdmin(req, res)

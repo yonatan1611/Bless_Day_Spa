@@ -6,7 +6,7 @@
 // action.
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import { put } from '@vercel/blob'
-import { assertSameOrigin, requireAdmin } from '../_lib/auth'
+import { assertSameOrigin, requireAdmin } from '../_lib/auth.js'
 
 const MAX_BYTES = 4 * 1024 * 1024
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])

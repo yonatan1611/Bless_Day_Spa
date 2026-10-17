@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { prisma } from '../_lib/prisma'
-import { assertSameOrigin, requireAdmin } from '../_lib/auth'
+import { prisma } from '../_lib/prisma.js'
+import { assertSameOrigin, requireAdmin } from '../_lib/auth.js'
 
 const slugify = (value: string) =>
   value
