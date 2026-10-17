@@ -104,7 +104,7 @@ Flat by default. Shadows are used only in two load-bearing places: the floating 
 
 ## Shapes
 
-Deliberately restrained: `--radius-sm: 2px` for buttons, inputs, and image frames; `--radius-md: 4px` for panels and larger containers. The floating header, nav pills, and small chip-style controls (booking-selection chips, step-indicator circles) are the only full-radius (`999px`) elements in the system, reserved for small interactive controls rather than used broadly. This is not a rounded-corner system; the near-sharp default is intentional, read against the plaster's soft materiality.
+Deliberately restrained: `--radius-sm: 2px` for buttons, inputs, and image frames; `--radius-md: 4px` for panels and larger containers. The floating header and nav pills are the only full-radius (`999px`) elements in the system (plus the circular WhatsApp FAB, `border-radius: 50%`), reserved for small interactive controls rather than used broadly. This is not a rounded-corner system; the near-sharp default is intentional, read against the plaster's soft materiality.
 
 ## Components
 
@@ -133,7 +133,7 @@ A vertical tab list (horizontal pill-scroll on mobile) paired with a cross-faded
 - **Do** use rose as the only saturated accent, applied identically across every page.
 - **Do** keep eyebrows rare, at most roughly one per three sections per page.
 - **Do** use real Bless Day Spa photography; the one disclosed stock exception (facials) stays labeled honestly in sourcing comments, never passed off as business photography.
-- **Do** keep the booking flow's "this is a request, not a confirmed booking" framing in every CTA context that touches it.
+- **Do** keep every "book" CTA honest that it opens a WhatsApp/phone conversation, not a confirmed appointment.
 
 ### Don't:
 - **Don't** introduce a second accent color, warm beige/cream backgrounds, or a serif display face without an explicit brand reason.

@@ -1,6 +1,7 @@
 import { PageContainer, Section } from '../layout/Primitives'
 import { BlurText } from '../react-bits/BlurText'
 import { Button } from '../ui/Button'
+import { business } from '../../content/business'
 import { homepageImages } from '../../content/images'
 
 // Closes the homepage by reusing the hero photo, darkened — the visual
@@ -13,7 +14,7 @@ export const FinalCta = () => (
       <h2 id="final-cta-title" className="final-cta__line display-lg">
         <BlurText text="Make room for a blessed day." />
       </h2>
-      <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+      <Button href={business.whatsappUrl} variant="primary" arrow="down-right">Message on WhatsApp</Button>
     </PageContainer>
   </Section>
 )

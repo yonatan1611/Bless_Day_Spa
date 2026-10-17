@@ -68,11 +68,10 @@ login can reach it, so treat that password like any other admin credential.
 
 ## Local development
 
-Like `api/book.ts`, the admin API routes (`api/admin/*.ts`, `api/menu.ts`)
-only run under `vercel dev`, not plain `npm run dev` — Vite's dev server
-doesn't execute Vercel Functions. Per the same quirk documented in
-`docs/booking-email-setup.md`, source `.env.local` into the shell before
-starting it, or the functions won't see the pulled env vars:
+The admin API routes (`api/admin/*.ts`, `api/menu.ts`) only run under
+`vercel dev`, not plain `npm run dev` — Vite's dev server doesn't execute
+Vercel Functions. Source `.env.local` into the shell before starting it, or
+the functions won't see the pulled env vars:
 
 ```bash
 set -a && source .env.local && set +a

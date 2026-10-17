@@ -5,8 +5,8 @@
 // TypeScript source Vercel deploys runs here unmodified), and adapts the
 // plain Node request/response into the shape @vercel/node's handlers
 // expect (req.query/cookies/body, res.status().json()). Also supports the
-// Edge-runtime Request/Response signature (api/book.ts) by checking the
-// module's exported `config.runtime`.
+// Edge-runtime Request/Response signature by checking the module's
+// exported `config.runtime`.
 import { existsSync, readdirSync, statSync } from 'node:fs'
 import path from 'node:path'
 import type { IncomingMessage, ServerResponse } from 'node:http'

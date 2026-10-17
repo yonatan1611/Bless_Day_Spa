@@ -1,6 +1,7 @@
 import { ImageFrame } from '../ui/ImageFrame'
 import { Button } from '../ui/Button'
 import { Reveal } from '../ui/Reveal'
+import { business } from '../../content/business'
 import type { Service } from '../../content/services'
 
 type TreatmentIndexRowProps = {
@@ -28,7 +29,7 @@ export const TreatmentIndexRow = ({ service, image, demo, index, reversed }: Tre
       <p className="body-sm treatment-row__note">{service.note}</p>
       <div className="treatment-row__actions">
         <Button to={`/treatments/${service.slug}`} variant="secondary" arrow="up-right">View details</Button>
-        <Button to={`/book?service=${service.slug}`} variant="primary" arrow="down-right">Book appointment</Button>
+        <Button href={business.whatsappUrlFor(service.title)} variant="primary" arrow="down-right">Message on WhatsApp</Button>
       </div>
     </div>
   </Reveal>

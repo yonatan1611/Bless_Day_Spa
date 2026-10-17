@@ -90,13 +90,4 @@ export const menuCategories: MenuCategory[] = [
     alt: 'A clay facial mask being applied at a spa',
     items: [{ name: 'Microdermabrasion Facial', price: '2800 ETB', duration: 'About 40-50 min' }],
   },
-  {
-    slug: 'other',
-    title: 'Other',
-    tagline: 'A generator fee for treatments that need power kept on.',
-    image: homepageImages.hero,
-    alt: 'Interior at Bless Day Spa',
-    demo: true,
-    items: [{ name: 'Generator (per person, for two)', price: '800 ETB', duration: 'About 1 h 15 min' }],
-  },
 ]

@@ -12,27 +12,25 @@ Prospective and returning customers of Bless Day Spa in Wollo Sefer, Addis Ababa
 
 ## Product Purpose
 
-A marketing and lead-capture website for a real, single-location day spa. It replaces an informal, undocumented online presence with a professional site: a browsable treatment menu with real pricing, real photography of the space, verified guest reviews, and a booking request flow that reaches the business by email (with Messenger/phone as a fallback), since there is no live appointment calendar.
+A marketing and lead-capture website for a real, single-location day spa. It replaces an informal, undocumented online presence with a professional site: a browsable treatment menu with real pricing, real photography of the space, verified guest reviews, and direct contact via WhatsApp or phone to arrange a visit, since there is no live appointment calendar.
 
 ## Positioning
 
-Distinguishes itself from generic spa-site boilerplate by being genuinely verified: real business facts (sourced and cross-checked, see docs/research.md), real Tripadvisor reviews, real on-site photography (one disclosed exception: a single licensed stock photo for facials, since no business photography of that treatment exists), and an explicitly honest booking flow that says "this is a request, not a confirmed booking" rather than faking live availability.
+Distinguishes itself from generic spa-site boilerplate by being genuinely verified: real business facts (sourced and cross-checked, see docs/research.md), real Tripadvisor reviews, real on-site photography (one disclosed exception: a single licensed stock photo for facials, since no business photography of that treatment exists), and an explicitly honest approach to booking — every "book" call to action opens a WhatsApp chat (prefilled with the treatment, where known) rather than faking live availability or a confirmed-appointment form.
 
 ## Operating Context
 
 - Single physical location: Wollo Sefer, just off Ethio-China Road, near the Meskel Flower roundabout, Addis Ababa, Ethiopia.
-- No admin login, no appointment calendar, no database-backed booking system yet (see docs/neon-prisma-setup.md for a sketched future system that is not built).
-- Booking requests arrive by email via a Vercel Edge Function (api/book.ts) using Resend; Messenger and phone are the visible fallback.
-- The business confirms actual appointment times by message or call after a request is sent; no booking is confirmed until the business responds.
-- Deployment target: Vercel (free Hobby tier currently). A custom domain is being purchased separately through a registrar (Yegara) and will be pointed at Vercel via DNS, then verified with Resend to enable visitor confirmation emails.
+- No admin login, no appointment calendar, no database-backed booking system (see docs/neon-prisma-setup.md for a sketched future system that is not built).
+- Every "book" CTA opens WhatsApp (`business.whatsappUrl` / `business.whatsappUrlFor`); Messenger and a direct `tel:` link are the visible fallbacks. There used to be a multi-step email-based booking request flow (`/book`, `api/book.ts`); it was removed in favor of this direct-contact approach.
+- The business confirms actual appointment times by message or call after a visitor reaches out; no booking is confirmed until the business responds.
+- Deployment target: Vercel (free Hobby tier currently). A custom domain is being purchased separately through a registrar (Yegara) and will be pointed at Vercel via DNS.
 
 ## Capabilities and Constraints
 
 - Treatments offered: Massage, Moroccan bath, Steam & sauna, Facials. Hair salon and nail care were previously listed but are confirmed discontinued; do not reintroduce them.
-- Pricing is shown as listed by the business's own treatment menu/flyers; visitors are told to confirm current rates when booking.
-- The booking stepper collects: selected treatment(s), preferred date/time, name, phone (required), and email (optional). Providing an email triggers a confirmation email to the visitor; phone is always required and is the business's primary way to follow up.
+- Pricing is shown as listed by the business's own treatment menu/flyers; visitors are told to confirm current rates when they reach out.
 - No fabricated claims: ratings, counts, testimonials, or business facts (ownership, opening year, certifications) stay unconfirmed/absent until the business verifies them directly, per docs/research.md's sourcing discipline.
-- Visitor confirmation emails are best-effort only: Resend's unverified-account sandbox mode currently restricts delivery to the Resend account's own signup address. This is an external platform constraint to resolve by verifying a domain, not a product decision to work around in code.
 - The Gallery page also surfaces the same photography used on the homepage (hero lounge, treatment shots, atmosphere/flower detail shots) alongside Gallery's own distinct photo set.
 
 ## Brand Commitments
@@ -52,7 +50,7 @@ Distinguishes itself from generic spa-site boilerplate by being genuinely verifi
 ## Product Principles
 
 1. Never state a business fact, claim, or statistic that hasn't been verified directly with the business or sourced from a citable, public listing.
-2. Keep the booking flow honest about what it is: a request the business confirms afterward, never implied as a live, guaranteed appointment.
+2. Keep "booking" honest about what it is: a WhatsApp/phone conversation the business confirms afterward, never implied as a live, guaranteed appointment.
 3. Prefer real photography and real content over generic stock or invented placeholders; when neither exists, say so rather than fabricate.
 4. Preserve the current service list exactly (massage, Moroccan bath, steam & sauna, facials); treat discontinued services (hair salon, nail care) as permanently out of scope unless the business says otherwise.
 5. Keep the site's current visual language (the plaster-and-rose palette and Bricolage Grotesque/Archivo type system documented in `DESIGN.md`) as the incumbent world until the user explicitly asks for a new one.

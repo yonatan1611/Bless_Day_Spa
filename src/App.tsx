@@ -6,8 +6,8 @@ import { Footer } from './components/navigation/Footer'
 import { ScrollRestoration } from './components/ScrollRestoration'
 import { PageTransition } from './components/ui/PageTransition'
 import { MobileBookBar } from './components/ui/MobileBookBar'
+import { WhatsAppButton } from './components/ui/WhatsAppButton'
 import { AboutPage } from './pages/AboutPage'
-import { BookPage } from './pages/BookPage'
 import { ContactPage } from './pages/ContactPage'
 import { GalleryPage } from './pages/GalleryPage'
 import { HomePage } from './pages/HomePage'
@@ -61,13 +61,13 @@ const PublicApp = ({ location }: { location: ReturnType<typeof useLocation> }) =
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/reviews" element={<ReviewsPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/book" element={<BookPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </PageTransition>
     </AnimatePresence>
     <Footer />
     <MobileBookBar />
+    <WhatsAppButton />
   </div>
 )
 

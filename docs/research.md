@@ -38,6 +38,13 @@ main number to call. It's used as a `tel:` link in `src/content/business.ts`
 (`phone`/`phoneDisplay`). The `011 416 9211` landline from directory detail
 pages remains unconfirmed and unused.
 
+## Update: office landline confirmed October 2026
+
+The site maintainer confirmed the `011 416 9211` landline noted above is the
+business's office number (international format `+251 11 416 9211`). Added to
+`src/content/business.ts` as `officePhone`/`officePhoneDisplay` and listed
+alongside the main number on the Contact page.
+
 ## Update: additional reviews added October 2026
 
 The Tripadvisor listing blocks automated fetching, so it could not be

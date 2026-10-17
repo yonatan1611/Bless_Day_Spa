@@ -65,7 +65,7 @@ export const BlessExperience = () => (
 
       <div className="bless-experience__copy">
         <Reveal>
-          <SectionHeading title="What guests notice." id="bless-experience-title" />
+          <SectionHeading eyebrow="Why Choose Bless Day Spa?" title="What guests notice." id="bless-experience-title" />
         </Reveal>
 
         <ul className="bless-experience__list">

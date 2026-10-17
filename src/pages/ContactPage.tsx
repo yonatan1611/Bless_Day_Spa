@@ -13,6 +13,7 @@ const details = [
   { label: 'Location', value: `${business.areaDescription}, ${business.landmark}, ${business.city}` },
   { label: 'Hours', value: business.hours.label, note: business.hours.note },
   { label: 'Phone', value: business.phoneDisplay, href: `tel:${business.phone}` },
+  { label: 'Office', value: business.officePhoneDisplay, href: `tel:${business.officePhone}` },
 ]
 
 export const ContactPage = () => {
@@ -56,9 +57,10 @@ export const ContactPage = () => {
               <p className="body">Ask about current treatment availability and a convenient appointment time.</p>
               <div className="contact-route__actions">
                 <Button href={business.messengerUrl} variant="primary" arrow="up-right">Message on Facebook</Button>
+                <Button href={business.whatsappUrl} variant="secondary" arrow="up-right">Message on WhatsApp</Button>
                 <Button href={`tel:${business.phone}`} variant="secondary">Call {business.phoneDisplay}</Button>
               </div>
-              <p className="body-sm contact-route__fine-print">Opens the public {business.name} Messenger contact.</p>
+              <p className="body-sm contact-route__fine-print">Opens the public {business.name} Messenger contact, WhatsApp chat, or phone dialer.</p>
             </div>
 
             <div className="panel contact-details">
@@ -90,7 +92,7 @@ export const ContactPage = () => {
         <PageContainer narrow>
           <h2 id="contact-cta-title" className="display-lg">Book your visit.</h2>
           <p className="body-lg">Send {business.name} a message to ask about an available time.</p>
-          <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+          <Button href={business.whatsappUrl} variant="primary" arrow="down-right">Message on WhatsApp</Button>
         </PageContainer>
       </Section>
     </main>

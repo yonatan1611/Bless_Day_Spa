@@ -110,14 +110,12 @@ export const TreatmentMenu = () => {
                               aria-expanded={isOpen}
                             >
                               <span className="menu-list__name">{menuItem.name}</span>
-                              {menuItem.duration && <span className="menu-list__duration">{menuItem.duration}</span>}
                               {menuItem.price && <span className="menu-list__price">{menuItem.price}</span>}
                               <span className="menu-list__note-toggle" aria-hidden="true">{isOpen ? '−' : '+'}</span>
                             </button>
                           ) : (
                             <div className="menu-list__row">
                               <span className="menu-list__name">{menuItem.name}</span>
-                              {menuItem.duration && <span className="menu-list__duration">{menuItem.duration}</span>}
                               {menuItem.price && <span className="menu-list__price">{menuItem.price}</span>}
                             </div>
                           )}

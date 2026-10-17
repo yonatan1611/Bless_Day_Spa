@@ -7,6 +7,7 @@ import { TreatmentMenu } from '../components/treatments/TreatmentMenu'
 import { FlowingMenu } from '../components/react-bits/FlowingMenu'
 import { getService, services } from '../content/services'
 import { treatmentImages } from '../content/images'
+import { business } from '../content/business'
 import { usePageTitle } from '../hooks/usePageTitle'
 
 const imageByService: Record<string, string> = {
@@ -65,7 +66,7 @@ export const TreatmentsPage = () => {
               Prices are listed in the menu above. For anything not listed there, message
               the spa to discuss what you need.
             </p>
-            <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+            <Button href={business.whatsappUrl} variant="primary" arrow="down-right">Message on WhatsApp</Button>
           </Reveal>
         </PageContainer>
       </Section>

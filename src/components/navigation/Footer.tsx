@@ -5,10 +5,10 @@ const linkColumns = [
   {
     heading: 'Explore',
     links: [
+      { label: 'About', to: '/about' },
       { label: 'Treatments', to: '/treatments' },
       { label: 'Gallery', to: '/gallery' },
       { label: 'Reviews', to: '/reviews' },
-      { label: 'About', to: '/about' },
     ],
   },
   {
@@ -16,13 +16,14 @@ const linkColumns = [
     links: [
       { label: 'Contact', to: '/contact' },
       { label: 'Open in Google Maps', to: business.mapUrl, external: true },
-      { label: 'Book Appointment', to: '/book' },
     ],
   },
   {
     heading: 'Reach us',
     links: [
       { label: `Call ${business.phoneDisplay}`, to: `tel:${business.phone}`, external: true },
+      { label: `Office ${business.officePhoneDisplay}`, to: `tel:${business.officePhone}`, external: true },
+      { label: 'Message on WhatsApp', to: business.whatsappUrl, external: true },
       { label: 'Message on Facebook', to: business.messengerUrl, external: true },
       { label: 'Instagram', to: business.instagramUrl, external: true },
       { label: 'TikTok', to: business.tiktokUrl, external: true },

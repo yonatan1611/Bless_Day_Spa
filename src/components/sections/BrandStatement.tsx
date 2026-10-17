@@ -17,6 +17,7 @@ export const BrandStatement = () => (
       aria-hidden="true"
     />
     <PageContainer narrow className="brand-statement__container">
+      <p className="eyebrow">About Us</p>
       <h2 id="brand-statement-title">
         <BlurText text="A pause in the city, made practical." className="brand-statement__line" />
       </h2>

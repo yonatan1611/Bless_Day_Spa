@@ -3,10 +3,8 @@ import { motion, useReducedMotion, type Variants } from 'motion/react'
 import { ImageFrame } from '../ui/ImageFrame'
 import { Button } from '../ui/Button'
 import { BlurText } from '../react-bits/BlurText'
-import { RotatingText } from '../react-bits/RotatingText'
 import { business } from '../../content/business'
 import { homepageImages } from '../../content/images'
-import { services } from '../../content/services'
 
 const heroStagger: Variants = {
   hidden: {},
@@ -97,18 +95,13 @@ export const Hero = () => {
           {business.areaDescription} · {business.city}
         </motion.p>
         <h1 id="hero-title" className="hero__title">
-          <BlurText text="Make room" tag="span" className="hero__title-line" />
-          <br />
-          <motion.span className="hero__title-line" variants={heroItem}>
-            for a <em>blessed</em> day.
-          </motion.span>
+          <BlurText text={business.name} tag="span" className="hero__title-line" />
         </h1>
         <motion.p className="body-lg hero__intro" variants={heroItem}>
-          {business.servesDescription} Today, make time for{' '}
-          <RotatingText texts={services.map((s) => s.title)} className="hero__rotating-text" />.
+          Massage, Moroccan baths, steam, sauna, and facials for women and men in Addis Ababa.
         </motion.p>
         <motion.div className="hero__actions" variants={heroItem}>
-          <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+          <Button href={business.whatsappUrl} variant="primary" arrow="down-right">Message on WhatsApp</Button>
           <Button to="/treatments" variant="secondary" arrow="down-right">Explore Treatments</Button>
         </motion.div>
       </motion.div>

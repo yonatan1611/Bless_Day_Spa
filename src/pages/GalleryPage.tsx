@@ -82,11 +82,8 @@ export const GalleryPage = () => {
       <Section padding="top" className="page-intro">
         <PageContainer narrow>
           <p className="eyebrow">Gallery</p>
-          <h1 className="display-lg">A closer look at the atmosphere.</h1>
-          <p className="body-lg">
-            Real Bless Day Spa photography: textures, treatment rooms, and quiet details.
-            Select any image for a closer look.
-          </p>
+          <h1 className="display-lg">A Closer Look at Bless Day Spa</h1>
+          <p className="body-lg">Explore our spaces and treatment rooms.</p>
         </PageContainer>
       </Section>
 
@@ -127,7 +124,7 @@ export const GalleryPage = () => {
       <Section className="section--inverse gallery-cta" aria-labelledby="gallery-cta-title">
         <PageContainer narrow>
           <h2 id="gallery-cta-title" className="display-lg">Come see it in person.</h2>
-          <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+          <Button href={business.whatsappUrl} variant="primary" arrow="down-right">Message on WhatsApp</Button>
         </PageContainer>
       </Section>
 

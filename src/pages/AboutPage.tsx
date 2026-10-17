@@ -146,7 +146,7 @@ export const AboutPage = () => {
         <PageContainer narrow>
           <h2 id="about-cta-title" className="display-lg">Plan your visit.</h2>
           <p className="body-lg">Send {business.name} a message to ask about an available time.</p>
-          <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+          <Button href={business.whatsappUrl} variant="primary" arrow="down-right">Message on WhatsApp</Button>
         </PageContainer>
       </Section>
     </main>

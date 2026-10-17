@@ -7,6 +7,7 @@ import { Reveal } from '../ui/Reveal'
 import { ImageFrame } from '../ui/ImageFrame'
 import { services } from '../../content/services'
 import { homepageImages, demoServiceSlugs } from '../../content/images'
+import { business } from '../../content/business'
 import { useMenu } from '../../hooks/useMenu'
 import { onSpotlightPointerMove } from '../../lib/spotlight'
 
@@ -71,7 +72,7 @@ export const TreatmentExplorer = () => {
     <Section aria-labelledby="explorer-title" className="explorer-section">
       <PageContainer>
         <Reveal>
-          <SectionHeading eyebrow="At the spa" title="Choose the time you need." id="explorer-title">
+          <SectionHeading eyebrow="Our Treatments" title="Choose the time you need." id="explorer-title">
             <p className="body-lg">Four ways to spend a little longer with yourself. Select one to look closer.</p>
           </SectionHeading>
         </Reveal>
@@ -139,7 +140,7 @@ export const TreatmentExplorer = () => {
                   <p className="body-sm explorer__note">{services[active].note}</p>
                   <div className="explorer__actions">
                     <Button to={`/treatments/${services[active].slug}`} variant="secondary" arrow="up-right">View treatment</Button>
-                    <Button to="/book" variant="primary" arrow="down-right">Book Appointment</Button>
+                    <Button href={business.whatsappUrlFor(services[active].title)} variant="primary" arrow="down-right">Message on WhatsApp</Button>
                   </div>
                 </div>
               </motion.div>

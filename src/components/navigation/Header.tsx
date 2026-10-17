@@ -5,8 +5,8 @@ import { Menu, X } from 'lucide-react'
 import { Button } from '../ui/Button'
 
 const navigation = [
-  { label: 'Treatments', to: '/treatments' },
   { label: 'About', to: '/about' },
+  { label: 'Treatments', to: '/treatments' },
   { label: 'Gallery', to: '/gallery' },
   { label: 'Contact', to: '/contact' },
 ]
@@ -14,6 +14,9 @@ const navigation = [
 // Three separate floating glass clusters (brand mark, nav, actions) instead
 // of one continuous bar, always the same translucent-plaster treatment so
 // it reads over both the dark hero photo and every light page background.
+// The actions CTA links to the Contact page (which lays out every contact
+// option — WhatsApp, Messenger, phone) rather than jumping straight to
+// WhatsApp itself, so it doesn't duplicate the WhatsAppButton fab.
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
   const toggleRef = useRef<HTMLButtonElement>(null)
@@ -44,6 +47,7 @@ export const Header = () => {
     <header className="floating-header">
       <Link to="/" className="floating-header__brand" aria-label="Bless Day Spa home">
         <img src="/images/brand/bless-mark.png" alt="" aria-hidden="true" />
+        <span className="floating-header__wordmark">Bless Day Spa</span>
       </Link>
 
       <nav className="floating-header__nav" aria-label="Main navigation">
@@ -62,7 +66,7 @@ export const Header = () => {
       </nav>
 
       <div className="floating-header__actions">
-        <Button to="/book" variant="primary" className="floating-header__cta">Book Appointment</Button>
+        <Button to="/contact" variant="primary" className="floating-header__cta">Get in Touch</Button>
         <button
           ref={toggleRef}
           type="button"
@@ -105,8 +109,8 @@ export const Header = () => {
               ))}
             </motion.nav>
             <motion.div variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }} initial="hidden" animate="show" transition={{ delay: 0.4 }}>
-              <Button to="/book" variant="primary" className="floating-header__mobile-cta">
-                Book Appointment
+              <Button to="/contact" variant="primary" className="floating-header__mobile-cta">
+                Get in Touch
               </Button>
             </motion.div>
           </motion.div>

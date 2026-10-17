@@ -76,14 +76,6 @@ const menuCategories = [
     altText: 'A clay facial mask being applied at a spa',
     items: [{ name: 'Microdermabrasion Facial', priceEtb: 2800, duration: 'About 40-50 min' }],
   },
-  {
-    slug: 'other',
-    title: 'Other',
-    tagline: 'A generator fee for treatments that need power kept on.',
-    imageUrl: '/images/homepage/lounge.jpg',
-    altText: 'Interior at Bless Day Spa',
-    items: [{ name: 'Generator (per person, for two)', priceEtb: 800, duration: 'About 1 h 15 min' }],
-  },
 ]
 
 async function seedAdmin() {

@@ -54,7 +54,7 @@ export const TreatmentDetailPage = () => {
               <p className="detail-hero__price body-sm">Duration and price are confirmed directly with the spa.</p>
 
               <div className="detail-hero__actions">
-                <Button to={`/book?service=${service.slug}`} variant="primary" arrow="down-right">Book Appointment</Button>
+                <Button href={business.whatsappUrlFor(service.title)} variant="primary" arrow="down-right">Message on WhatsApp</Button>
                 <Button to="/treatments#menu" variant="text" arrow="down-right">See the full menu</Button>
               </div>
             </div>
@@ -112,7 +112,7 @@ export const TreatmentDetailPage = () => {
           <h2 id="detail-cta-title" className="display-lg">Book your {service.title}.</h2>
           <p className="body-lg">Send {business.name} a message to ask about an available time.</p>
           <div className="detail-cta__actions">
-            <Button to={`/book?service=${service.slug}`} variant="primary" arrow="down-right">Book Appointment</Button>
+            <Button href={business.whatsappUrlFor(service.title)} variant="primary" arrow="down-right">Message on WhatsApp</Button>
             <Button href={business.messengerUrl} variant="secondary" arrow="up-right">Message on Facebook</Button>
           </div>
         </PageContainer>

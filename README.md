@@ -3,13 +3,11 @@
 A marketing and lead-capture website for Bless Day Spa, a real, single-location
 day spa in Wollo Sefer, Addis Ababa. It replaces an informal online presence
 with a browsable treatment menu, real on-site photography, verified guest
-reviews, and an honest email-based booking request flow (the business
-confirms every request by phone or message — there's no live appointment
-calendar).
+reviews, and direct WhatsApp/phone contact for booking a visit.
 
 Built with React, React Router, and Vite, styled with Tailwind CSS v4, and
-deployed on Vercel with Vercel Functions for the booking API and a
-Neon/Prisma-backed admin dashboard for managing the menu.
+deployed on Vercel with a Neon/Prisma-backed admin dashboard for managing
+the menu.
 
 ## Screenshots
 
@@ -30,10 +28,9 @@ Neon/Prisma-backed admin dashboard for managing the menu.
   one page (facials) falls back to a disclosed, licensed stock photo.
 - **Verified guest reviews** — pulled directly from the business's public
   Tripadvisor listing (see [`src/content/reviews.ts`](src/content/reviews.ts)).
-- **Honest booking flow** — a multi-step request form (treatment, date/time,
-  name, phone, optional email) that emails the business via
-  [Resend](https://resend.com); it's explicit that a request isn't a
-  confirmed appointment until the business responds.
+- **Direct contact** — every "book" call to action opens a prefilled WhatsApp
+  chat (with a tel: link as a fallback), since there's no live appointment
+  calendar; the business confirms times by message or call.
 - **Admin dashboard** (`/admin`) — a password-protected menu editor backed
   by Neon Postgres via Prisma, for updating treatments and pricing without a
   code change. See [`docs/admin-setup.md`](docs/admin-setup.md).
@@ -50,14 +47,13 @@ Neon/Prisma-backed admin dashboard for managing the menu.
 | Animation | Motion (Framer Motion), GSAP |
 | Backend | Vercel Functions (`api/*.ts`) |
 | Database | Neon Postgres via Prisma (admin dashboard only) |
-| Email | Resend (booking notifications) |
 | File storage | Vercel Blob (admin-uploaded menu images) |
 | Hosting | Vercel |
 
 ## Project structure
 
 ```
-api/                  Vercel Functions — booking requests, menu CRUD, admin auth
+api/                  Vercel Functions — menu CRUD, admin auth
 prisma/               Database schema, migrations, seed script
 public/images/        Real site photography, organized by page
 src/
@@ -65,7 +61,7 @@ src/
   content/            Typed content: business facts, reviews, treatment copy, image paths
   pages/              Route-level page components (incl. pages/admin/*)
   styles/global.css   The site's full design system (tokens, components, responsive rules)
-docs/                 Setup guides (admin, booking email, database) and research notes
+docs/                 Setup guides (admin, database) and research notes
 ```
 
 ## Getting started
@@ -75,8 +71,6 @@ docs/                 Setup guides (admin, booking email, database) and research
 - Node.js 20+
 - A [Neon](https://neon.tech) Postgres database (only needed for the `/admin`
   dashboard — the public site runs without it)
-- A [Resend](https://resend.com) account (only needed to actually send
-  booking emails in dev)
 
 ### Setup
 
@@ -87,8 +81,8 @@ npm run dev                  # starts Vite + the local API dev server
 ```
 
 The dev server runs the public site at `http://localhost:5173`. Vite's dev
-server loads `api/*.ts` directly (via `vite-dev-api.ts`) so the booking and
-admin endpoints work locally without `vercel dev`.
+server loads `api/*.ts` directly (via `vite-dev-api.ts`) so the admin
+endpoints work locally without `vercel dev`.
 
 ### Environment variables
 
@@ -97,7 +91,6 @@ ever be prefixed `VITE_` or read from client code — they're server-only.
 
 | Variable | Used for |
 | --- | --- |
-| `RESEND_API_KEY`, `BOOKING_NOTIFY_EMAIL`, `BOOKING_FROM_EMAIL` | Booking request emails — see [`docs/booking-email-setup.md`](docs/booking-email-setup.md) |
 | `DATABASE_URL`, `DIRECT_URL`, `NEON_BRANCH` | Neon Postgres connection for the admin dashboard |
 | `BLOB_READ_WRITE_TOKEN` | Vercel Blob storage for admin-uploaded images |
 | `SESSION_SECRET` | Signs the admin session cookie |
@@ -121,7 +114,6 @@ ever be prefixed `VITE_` or read from client code — they're server-only.
 - [`PRODUCT.md`](PRODUCT.md) — product purpose, positioning, and principles
 - [`DESIGN.md`](DESIGN.md) — the visual design system (palette, type, components)
 - [`docs/admin-setup.md`](docs/admin-setup.md) — setting up the admin dashboard
-- [`docs/booking-email-setup.md`](docs/booking-email-setup.md) — configuring booking emails
 - [`docs/neon-prisma-setup.md`](docs/neon-prisma-setup.md) — database setup
 - [`docs/research.md`](docs/research.md) — sourcing notes for every verified business fact
 
