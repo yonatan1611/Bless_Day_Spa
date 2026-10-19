@@ -588,8 +588,8 @@ body.nav-open .whatsapp-fab { display: none; }
   color: var(--text-primary);
   white-space: nowrap;
 }
-@media (max-width: 640px) {
-  .floating-header__wordmark { display: none; }
+@media (max-width: 400px) {
+  .floating-header__wordmark { font-size: 0.8rem; }
 }
 
 .floating-header__nav {
